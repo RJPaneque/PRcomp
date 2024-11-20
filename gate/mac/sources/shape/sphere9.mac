@@ -1,0 +1,5 @@
+/gate/source/src/gps/pos/type     Volume
+/gate/source/src/gps/pos/shape    Sphere
+/gate/source/src/gps/pos/radius   0.01 mm
+
+/gate/source/src/gps/pos/centre   0.0 0.0 0.0 mm

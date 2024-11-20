@@ -1,0 +1,10 @@
+/gate/actor/addActor    ProductionAndStoppingActor          positron_range
+/gate/actor/positron_range/addFilter                        particleFilter
+/gate/actor/positron_range/particleFilter/addParticle       e+
+/gate/actor/positron_range/save                             output/Image.mhd
+/gate/actor/positron_range/attachTo                         phantom
+/gate/actor/positron_range/setPosition                      0.00 0.00 0.00 mm
+/gate/actor/positron_range/setSize                          0.603 0.603 0.603 cm
+/gate/actor/positron_range/setResolution                    201 201 201
+/gate/actor/positron_range/stepHitType                      post
+/gate/actor/positron_range/saveEveryNSeconds                30

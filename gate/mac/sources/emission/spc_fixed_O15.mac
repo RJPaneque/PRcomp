@@ -1,0 +1,4 @@
+/gate/source/src/gps/particle           e+
+/gate/source/src/gps/energytype         Oxygen15
+/gate/source/src/setForcedHalfLife      122.24 s
+/gate/source/src/setForcedUnstableFlag  true

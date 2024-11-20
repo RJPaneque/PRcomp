@@ -1,0 +1,4 @@
+/gate/source/src/gps/particle           e+
+/gate/source/src/gps/energytype         Carbon11
+/gate/source/src/setForcedHalfLife      1222.8 s
+/gate/source/src/setForcedUnstableFlag  true

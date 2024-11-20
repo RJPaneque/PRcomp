@@ -1,0 +1,5 @@
+/gate/source/src/gps/particle     ion
+/gate/source/src/gps/ion          31 68 0 0
+/gate/source/src/gps/ene/type     Mono
+/gate/source/src/gps/ene/mono     0. MeV
+/gate/source/src/useDefaultHalfLife

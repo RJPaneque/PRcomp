@@ -1,0 +1,73 @@
+##########################################################
+# Material Database
+##########################################################
+/gate/geometry/setMaterialDatabase data/GateMaterials.db
+
+##########################################################
+# Geometry
+##########################################################
+/control/execute                mac/world.mac
+
+##########################################################
+# Phantom
+##########################################################
+/gate/world/daughters/name      phantom
+/control/execute                mac/mats/mat1.mac
+
+##########################################################
+# Physics
+##########################################################
+#/gate/physics/addProcess       RadioactiveDecay
+#/gate/physics/addProcess       Decay
+/gate/physics/addPhysicsList    emstandard_opt3    # emstandard_opt3 emlivermore emlivermore_polar empenelope
+
+##########################################################
+# Simulation output
+##########################################################
+/control/execute                mac/actors/stats.mac
+/control/execute                mac/actors/ProdStop.mac
+
+##########################################################
+####################INITIALISATION########################
+##########################################################
+/gate/run/initialize
+
+##########################################################
+# Source
+##########################################################
+/gate/source/addSource          src
+
+/control/execute                mac/sources/shape/sphere.mac
+
+/gate/source/src/gps/pos/centre    0.0 0.0 0.0 mm
+/gate/source/src/setActivity       1e10 becquerel
+
+/control/execute                mac/sources/emission/nuc.mac
+
+/gate/source/src/setForcedUnstableFlag true
+/gate/source/src/gps/ang/type           iso
+/gate/source/src/visualize             cyan
+
+/gate/source/list
+
+##########################################################
+# Random engine and seed
+##########################################################
+/gate/random/setEngineName JamesRandom
+/gate/random/setEngineSeed default
+/gate/random/verbose 0
+
+##########################################################
+# Visualisation
+##########################################################
+/vis/disable
+
+##########################################################
+# Start data acquisition
+##########################################################
+/gate/application/setTimeSlice   1 s
+/gate/application/setTimeStart   0 s
+/gate/application/setTimeStop    1 s
+
+/gate/application/setTotalNumberOfPrimaries 1e4
+/gate/application/startDAQ

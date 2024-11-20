@@ -1,0 +1,4 @@
+/gate/source/src/gps/particle           e+
+/gate/source/src/gps/energytype         Fluor18
+/gate/source/src/setForcedHalfLife      6586.2 s
+/gate/source/src/setForcedUnstableFlag  true

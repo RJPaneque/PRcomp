@@ -1,0 +1,4 @@
+/gate/source/src/gps/particle           e+
+/gate/source/src/gps/energytype         UserSpectrum
+/gate/source/src/gps/setSpectrumFile    data/F18.txt
+/gate/source/src/setIntensity           10
