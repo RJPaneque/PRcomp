@@ -6,19 +6,22 @@
 ##########################################################
 # Geometry
 ##########################################################
-/control/execute                mac/world.mac
+/gate/world/setMaterial             Vacuum
+/gate/world/geometry/setXLength     20.0 cm
+/gate/world/geometry/setYLength     20.0 cm
+/gate/world/geometry/setZLength     20.0 cm
+/gate/world/vis/setColor            white
 
 ##########################################################
 # Phantom
 ##########################################################
-/gate/world/daughters/name      phantom
-/control/execute                mac/mats/mat1.mac
+/control/execute                mac/phantoms/analytical/box.mac
+/control/execute                mac/phantoms/analytical/1mat.mac
 
 ##########################################################
 # Physics
 ##########################################################
-#/gate/physics/addProcess       RadioactiveDecay
-#/gate/physics/addProcess       Decay
+/gate/physics/addProcess       RadioactiveDecay
 /gate/physics/addPhysicsList    emstandard_opt3    # emstandard_opt3 emlivermore emlivermore_polar empenelope
 
 ##########################################################
@@ -26,6 +29,10 @@
 ##########################################################
 /control/execute                mac/actors/stats.mac
 /control/execute                mac/actors/ProdStop.mac
+#/control/execute                mac/actors/PhaseSpace.mac
+#/control/execute                mac/actors/SecondaryProd.mac
+
+/tracking/verbose 2
 
 ##########################################################
 ####################INITIALISATION########################
@@ -37,14 +44,13 @@
 ##########################################################
 /gate/source/addSource          src
 
-/control/execute                mac/sources/shape/sphere.mac
+/control/execute    mac/sources/shape/sphere9.mac
 
-/gate/source/src/gps/pos/centre    0.0 0.0 0.0 mm
-/gate/source/src/setActivity       1e10 becquerel
+/gate/source/src/gps/pos/centre        0.0 0.0 0.0 mm
+/gate/source/src/setActivity       1e12 becquerel
 
-/control/execute                mac/sources/emission/nuc.mac
+/control/execute    mac/sources/emission/spc_user9.mac
 
-/gate/source/src/setForcedUnstableFlag true
 /gate/source/src/gps/ang/type           iso
 /gate/source/src/visualize             cyan
 
@@ -54,7 +60,7 @@
 # Random engine and seed
 ##########################################################
 /gate/random/setEngineName JamesRandom
-/gate/random/setEngineSeed default
+/gate/random/setEngineSeed 512
 /gate/random/verbose 0
 
 ##########################################################

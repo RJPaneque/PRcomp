@@ -9,11 +9,11 @@ if [ ! -f "$mac" ]; then
 fi
 
 # Specify execution by version
-if [ "$mac" == *"7"* ]; then
+if [[ "$mac" == *"7"* ]]; then
     ./Gate $mac | grep annihil | grep -v applyCuts | awk '{print $2,$3,$4}' > output/annihilation.dat
 
-else if [ "$mac" == *"9"* ]; then
-    Gate $mac | grep annihilation | grep -v applyCuts | awk '{print $2,$3,$4}' > output/annihilation.dat
+else if [[ "$mac" == *"9"* ]]; then
+    Gate $mac | grep annihil | grep -v applyCuts | awk '{print $2,$3,$4}' > output/annihilation.dat
 else
     echo "Error: $mac version not matched." >&2
     exit 1
