@@ -15,7 +15,6 @@ if [ ! -f "$mac" ]; then
 fi
 
 # Check mac file version
-#if [ "$mac" == "gate/PR_GATEv70.mac" ]; then
 if [[ "$mac" == *"7"* ]]; then
     echo "Error: $mac cannot be edited with $0." >&2
     exit 1
@@ -23,11 +22,11 @@ fi
 
 # update mode in mac file
 if [ "$emis" == "SPC" ]; then
-    sed -i "s/sources\/emission.*/sources\/emission\/spc_user.nuc" $mac
+    sed -i "s/sources\/emission.*/sources\/emission\/spc_user9.mac/" $mac
     echo \"$mac\" mode modified to SPC
 
 elif [ "$emis" == "NUC" ]; then
-    sed -i "s/gps\/particle.*/gps\/particle      ion/" $mac
+    sed -i "s/sources\/emission.*/sources\/emission\/nuc.mac/" $mac
     echo \"$mac\" mode modified to NUC
 
 else
