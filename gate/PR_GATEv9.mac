@@ -32,7 +32,7 @@
 #/control/execute                mac/actors/PhaseSpace.mac
 #/control/execute                mac/actors/SecondaryProd.mac
 
-/tracking/verbose 2
+/tracking/verbose 0
 
 ##########################################################
 ####################INITIALISATION########################
@@ -49,7 +49,7 @@
 /gate/source/src/gps/pos/centre        0.0 0.0 0.0 mm
 /gate/source/src/setActivity       1e12 becquerel
 
-/control/execute    mac/sources/emission/nuc.mac
+/control/execute    mac/sources/emission/spc_user9.mac
 
 /gate/source/src/gps/ang/type           iso
 /gate/source/src/visualize             cyan
