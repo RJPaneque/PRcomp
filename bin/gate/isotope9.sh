@@ -44,5 +44,5 @@ fi
 sed -i "s/gps\/ion.*/gps\/ion          $Z $A 0 0/" gate/mac/sources/emission/nuc.mac
 echo \"gate/mac/sources/emission/nuc.mac\" isotope modified to atomic number $Z and mass number $A
 
-sed -i "s/data\/.*/data\/$iso.txt/" gate/mac/sources/emission/spc_user.mac
-echo \"gate/mac/sources/emission/spc_user.mac\" isotope modified to $iso
+sed -i "s/data\/.*/data\/$iso.txt/" gate/mac/sources/emission/spc_user9.mac
+echo \"gate/mac/sources/emission/spc_user9.mac\" isotope modified to $iso
