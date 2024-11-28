@@ -32,7 +32,7 @@
 #/control/execute                mac/actors/PhaseSpace.mac
 #/control/execute                mac/actors/SecondaryProd.mac
 
-/tracking/verbose 0
+/tracking/verbose 2
 
 ##########################################################
 ####################INITIALISATION########################
@@ -60,7 +60,7 @@
 # Random engine and seed
 ##########################################################
 /gate/random/setEngineName JamesRandom
-/gate/random/setEngineSeed 512
+/gate/random/setEngineSeed 12345
 /gate/random/verbose 0
 
 ##########################################################
@@ -75,5 +75,5 @@
 /gate/application/setTimeStart   0 s
 /gate/application/setTimeStop    1 s
 
-/gate/application/setTotalNumberOfPrimaries 1e4
+/gate/application/setTotalNumberOfPrimaries 1e6
 /gate/application/startDAQ
