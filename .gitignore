@@ -20,5 +20,6 @@ gate/output/*
 .vscode/*
 __pycache__/*
 .conda/*
+!.conda/environment.yml
 fermi/fort.88
 log.txt
