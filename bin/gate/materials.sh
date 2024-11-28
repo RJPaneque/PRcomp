@@ -32,7 +32,7 @@ for i in $(seq 1 $num_mats); do
 done
 
 # update mat file in main macro
-sed -i "s/mac\/phantoms\/analytical\/.*/mac\/phantoms\/analytical\/${num_mats}mat.mac/" $mac
+sed -i "s/[1-9]mat.mac/${num_mats}mat.mac/" $mac
 
 echo \"mac/phantoms/analytical/${num_mats}mat.mac\" materials modified to ${mats[@]} "(case $num_mats)"
 
