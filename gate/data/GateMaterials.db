@@ -206,6 +206,21 @@ LungTFM:  d=0.48 g/cm3 ; n=9
         +el: name=Chlorine  ; f=0.003
         +el: name=Potassium ; f=0.002
 
+LungICRP:  d=0.30 g/cm3 ; n=13
+        +el: name=Hydrogen  ; f=0.101278
+	+el: name=Carbon    ; f=0.10231
+	+el: name=Nitrogen  ; f=0.02865
+	+el: name=Oxygen    ; f=0.757072
+	+el: name=Sodium    ; f=0.00184
+	+el: name=Magnesium ; f=0.00073
+	+el: name=Phosphor  ; f=0.0008
+        +el: name=Sulfur    ; f=0.00225
+        +el: name=Chlorine  ; f=0.00266
+        +el: name=Potassium ; f=0.00194
+        +el: name=Calcium   ; f=0.00009
+        +el: name=Iron      ; f=0.00037
+        +el: name=Zinc      ; f=0.00001
+
 Polyethylene:  d=0.96 g/cm3 ; n=2
         +el: name=Hydrogen ; n=2
         +el: name=Carbon   ; n=1
@@ -295,6 +310,14 @@ BoneTFM: d=1.8754 g/cm3 ; n=11
         +el: name=Calcium   ; f=0.225
         +el: name=Scandium  ; f=0.0
         +el: name=Titanium  ; f=0.0
+
+BoneB100: d=1.45 g/cm3 ; n=6
+        +el: name=Hydrogen  ; f=0.065471
+        +el: name=Carbon    ; f=0.536944
+        +el: name=Nitrogen  ; f=0.0215
+        +el: name=Oxygen    ; f=0.032085
+        +el: name=Fluorine  ; f=0.167411
+        +el: name=Calcium   ; f=0.176589
 
 Adipose: d=0.92 g/cm3 ; n=11
         +el: name=Hydrogen  ; f=0.120
