@@ -20,7 +20,7 @@ nhist=$(awk '{printf "%d", $1}' <<< "$nhist")   # As integer
 # Extract last positron position from the tallyParticleTrackStructure.dat file
 grep -B 1 "^ " tallyParticleTrackStructure.dat | grep "3 1 1" | awk '{print $4"\t"$5"\t"$6}' > PosRange.dat
 
-while [[ $nhist -gt $(wc -l PosRange.dat | awk '{print $1}') ]]; do
+while [[ $nhist -gt $(wc -l PosRange.dat | awk '{print $1 + 200}') ]]; do
     # Modify the random seed
     r1=$RANDOM
     r2=$RANDOM
