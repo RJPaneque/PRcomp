@@ -21,3 +21,4 @@ gate/output/*
 __pycache__/*
 .conda/*
 fermi/fort.88
+log.txt
