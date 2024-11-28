@@ -60,7 +60,7 @@
 # Random engine and seed
 ##########################################################
 /gate/random/setEngineName JamesRandom
-/gate/random/setEngineSeed 512
+/gate/random/setEngineSeed 12345
 /gate/random/verbose 0
 
 ##########################################################
