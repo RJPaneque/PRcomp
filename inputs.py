@@ -354,7 +354,21 @@ class Hybrid(InputEditor):
             print(f"\"hybrid/GEO/ACTIVITY.raw\" updated to source with total number of histories {nhist}")
 
     
-class Gate(InputEditor):
+class GATE(InputEditor):
+    def _get_mac(self, pid):
+        if pid not in self.available_pids:
+            raise KeyError(f"Only valid pids for GATE are {self.available_pids}")
+        
+        match pid:
+            case '7': # GATE 7.0beta on fistensor
+                simul_file = "PR_GATEv7.mac"
+            case '9': # virtual GATE 9.x on my Windows
+                simul_file = "PR_GATEv9.mac"
+            case _:
+                raise ValueError(f"pid {pid} not implemented in inputs.py")
+        
+        return "gate/" + simul_file
+
     def __init__(self, verbose=True):
         super().__init__(verbose)
         # densities doesnt matter, but are needed
@@ -363,21 +377,22 @@ class Gate(InputEditor):
                     'lung':     ['LungTFM', 2,   4.80000000E-01],
                     'bone':     ['BoneTFM', 23,  1.87540000E+00]}
         
-        self.available_pids = Simulators.Gate.available_pids
-        self.available_NUC_emission = self.available_pids.copy()
-        self.available_NUC_emission.remove('G70')
+        self.available_pids = Simulators.GATE.available_pids
 
     def switch_emission(self, pid:str, emis:str):
-        if emis.upper() == 'NUC' and pid not in self.available_NUC_emission:
-            raise KeyError(f"Mode NUC can only be edited for pids {self.available_NUC_emission}")
-        
-        self._run_bin([f"./bin/gate/switch_emission.sh", emis])
+        mac = self._get_mac(pid)
+        self._run_bin([f"./bin/gate/switch_emission9.sh", mac, emis])
 
     def edit_isotope(self, pid:str, isotope:str):
-        if pid not in self.available_pids:
-            raise KeyError(f"Isotope can only be edited for pids {self.available_pids}")
-        
-        self._run_bin([f"./bin/gate/isotope.sh", isotope])
+        mac = self._get_mac(pid)
+        if "7" in pid:
+            suffix = "7"
+        elif "9" in pid:
+            suffix = "9"
+        else:
+            raise ValueError(f"pid {pid} not implemented in inputs.py")
+
+        self._run_bin([f"./bin/gate/isotope{suffix}.sh", mac, isotope])
 
     def edit_voxSize(self, pid:str, size:list[int], step:list[float]):
         if pid not in self.available_pids:
@@ -395,15 +410,25 @@ class Gate(InputEditor):
     
     def edit_mat(self, pid:str, MATS:dict, SIZE:list[int], STEP:list[float]):
         """MATS = {'mat name' : [mat id, mat index, mass density]}"""
-        if pid not in self.available_pids:
-            raise KeyError(f"Material can only be edited for pids {self.available_pids}")
+        mac = self._get_mac(pid)
+
+        # Check size and step corresponds to what is expected
+        pass
         
         # update material and density
         MATERIAL, DENSITY = self.get_newMaterial(MATS, SIZE, STEP) 
         MATERIAL.astype('uint16').tofile('gate/phantom/MATERIAL.i33', format="%d")
 
-        mats = [_[0] for _ in MATS.items()]
-        self._run_bin([f"./bin/gate/materials.sh"] + mats)
+
+        mats = [_[0] for _ in MATS.values()]
+        self._run_bin([f"./bin/gate/materials.sh", mac] + mats)
+
+    def switch_mat_inp(self, pid:str, mat_inp:str):
+        mac = self._get_mac(pid)
+        if mat_inp.lower() not in ["voxel", "analytical"]:
+            raise ValueError("Material input format must be 'voxel' or 'analytical'.")
+        
+        pass
 
     def edit_source_shape(self, pid:str, shape:str, pos:list[float], radius:float, ACT:str, SIZE:list[int], STEP:list[float]):
         if pid not in self.available_pids:
@@ -412,11 +437,9 @@ class Gate(InputEditor):
         if shape.lower() == 'sphere' and radius == 0:
             radius = 0.001  # cm
         ACTIVITY = self.get_newSource(shape, pos, radius, ACT, SIZE, STEP)
-        ACTIVITY.tofile('gate/phantom/ACTIVITY.i33', format="%f")
+        ACTIVITY.astype('uint16').tofile('gate/phantom/ACTIVITY.i33', format="%f")
         self._run_bin([f"./bin/gate/source.sh", shape])
     
     def edit_source_nhist(self, pid:str, nhist:str):
-        if pid not in self.available_pids:
-            raise KeyError(f"Simulation nhist can only be edited for pids {self.available_pids}")
-        
-        self._run_bin([f"./bin/gate/nhist.sh", nhist])
+        mac = self._get_mac(pid)
+        self._run_bin([f"./bin/gate/nhist.sh", mac, nhist])

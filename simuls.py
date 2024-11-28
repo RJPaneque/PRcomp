@@ -1,8 +1,9 @@
 import numpy as np
 import time
 import subprocess
+from dataclasses import dataclass
 
-class MasterSimulator:
+class HostSimulator:
     active_simulators = dict()
 
     @staticmethod
@@ -79,18 +80,18 @@ class MasterSimulator:
         log.close()
     
 
-class SlaveSimulator:
-    def __init__(self, pid:str, name:str, bash_dir:str, simul_dir:str, simul_command:str, output_file:str, output_format:str):
-        self.pid = pid                       # program ID
-        self.name = name                     # name of the program or configuration
-        self.bash_dir = bash_dir             # directory where bash scripts are located
-        self.simul_dir = simul_dir           # directory where the executable is located
-        self.simul_command = simul_command   # command to run simulation within its folder
-        self.output_file = output_file       # relative path to the output file
-        self.output_format = output_format   # raw (binary) or dat (ascii)
+@dataclass
+class GuestSimulator:
+    pid : str           # program ID
+    name : str          # name of the program or configuration
+    bash_dir : str      # directory where bash scripts are located
+    simul_dir : str     # directory where the executable is located
+    simul_command : str # command to run simulation within its folder
+    output_file : str   # relative path to the output file
+    output_format : str # raw (binary) or dat (ascii)
 
 
-class PenEasy(MasterSimulator):
+class PenEasy(HostSimulator):
     available_pids = ['MOD', # modified, accelerated version of penEasy
                       'SPC', # original penEasy with external emission spectrum
                       'NUC'  # original penEasy with internal emission spectrum (nuclear decay simulation)
@@ -104,9 +105,6 @@ class PenEasy(MasterSimulator):
         if pid not in PenEasy.available_pids:
             raise ValueError(f"Invalid pid {pid}. Available pids are {PenEasy.available_pids}")
 
-        bash_dir = "penEasy"
-        simul_dir = "penEasy" 
-        name = f"penEasy {pid}"
         match pid:
             case 'MOD': # modified, accelerated version of penEasy
                 simul_command = "./modified.x<modified.in"
@@ -118,12 +116,21 @@ class PenEasy(MasterSimulator):
                 output_file = "penEasy/PosRange.dat"
                 output_format = "dat"
 
-        slave = SlaveSimulator(pid, name, bash_dir, simul_dir, simul_command, output_file, output_format)
-        MasterSimulator.active_simulators[pid] = slave
+        guest = GuestSimulator(
+            pid=pid, 
+            name=f"penEasy {pid}", 
+            bash_dir="penEasy",
+            simul_dir="penEasy", 
+            simul_command=simul_command, 
+            output_file=output_file, 
+            output_format=output_format
+            )
+        
+        HostSimulator.active_simulators[pid] = guest
         if self.verbose:
-            print(f"{name} activated")
+            print(f"{guest.name} activated")
 
-class PeneloPET(MasterSimulator):
+class PeneloPET(HostSimulator):
     available_pids = ['PET20', # bug in the emission spectrum is present
                       'PET24', # bug in the emission spectrum is fixed
                      ]
@@ -131,32 +138,52 @@ class PeneloPET(MasterSimulator):
     def __init__(self, verbose=False):
         super().__init__(verbose)
     
-class HybridMC(MasterSimulator):
+class HybridMC(HostSimulator):
     available_pids = ['HYB',   # HybridMC simulation
                      ]
     
     def __init__(self, verbose=False):
         super().__init__(verbose)
     
-class GATE(MasterSimulator):
-    available_pids = ['G70',   # GATE 7.0beta
-                      'vG92',  # vGATE 9.2
-                      'vG93',  # vGATE 9.3
-                    #   'G94',   # GATE 9.4
-                    #   'G100',  # GATE 10.0
+class GATE(HostSimulator):
+    available_pids = ['7',   # GATE 7.0beta
+                      '9',   # vGATE 9.x
+                    #   '10',  # GATE 10.0
                      ]
     
     def __init__(self, verbose=False):
         super().__init__(verbose)
 
-    def activate_pid(self, pid:str):
+    def activate_pid(self, pid:str, output_format:str):
         pid = pid.upper()
         if pid not in GATE.available_pids:
             raise ValueError(f"Invalid pid {pid}. Available pids are {GATE.available_pids}")
+        
+        match output_format:
+            case 'dat':
+                output_file = "gate/output/annihilation.dat"
+            case 'raw':
+                output_file = "gate/output/Image-Stop.raw"
+            case _:
+                raise ValueError(f"Invalid format {pid}. Available pids are {GATE.available_pids}")
 
-        bash_dir = "gate"
-        simul_dir = "gate" 
-        name = pid
         match pid:
-            case 'GATE70':
-                pass
+            case '7': # GATE 7.0beta on fistensor
+                simul_file = "PR_GATEv7.mac"
+            case '9': # virtual GATE 9.2 on my Windows
+                simul_file = "PR_GATEv9.mac"
+
+
+        guest = GuestSimulator(
+            pid=pid, 
+            name=f"GATE {pid}", 
+            bash_dir="gate",
+            simul_dir="gate", 
+            simul_command=f"./run_gate.sh {simul_file}", 
+            output_file=output_file, 
+            output_format=output_format
+            )
+        
+        HostSimulator.active_simulators[pid] = guest
+        if self.verbose:
+            print(f"{guest.name} activated")
