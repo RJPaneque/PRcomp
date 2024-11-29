@@ -1,4 +1,4 @@
-RESULTS/**/*.dat*
+RESULTS/**/*.original
 RESULTS/**/*.raw*
 
 penEasy/*.dat
