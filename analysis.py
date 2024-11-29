@@ -263,7 +263,7 @@ class GetResults:
         self._singleFigurePlot('G3D', lim, False, title, xlabel, ylabel, labels=labels, legend_size=legend_size)
 
 
-def filter_rmax(file_in, file_out, threshold=100, trim:int=None):   # threshold in mm
+def filter_rmax(file_in, file_out, threshold=100, trim:int=None, fmt='%.6e'):   # threshold in mm
     if file_in == file_out:
         raise ValueError("Input and output files must be different for security reasons")
     
@@ -274,6 +274,6 @@ def filter_rmax(file_in, file_out, threshold=100, trim:int=None):   # threshold 
     a = a[r < threshold, :]
     if trim < len(a):
         a = a[:trim]
-    np.savetxt(file_out, a/10)
+    np.savetxt(file_out, a/10, fmt=fmt)
     print(f"Filtered '{file_in}' to '{file_out}': {np.sum(r>threshold)} points removed")
     return
