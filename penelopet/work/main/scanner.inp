@@ -8,5 +8,5 @@
 1				!Number of crystal layers by Detector
 0.7 13 0.18 1 40 0.01           !Length[cm]; Material; Energy Resol; Rise T[ns]; Fall T[ns], Time Resol [ns]
 0.155 0.155 0.005               !Pitch (Transaxial; Axial), reflector thickness[cm
-10.				!Radio: Center FOV - Center Front of Detector [cm]
+20.				!Radio: Center FOV - Center Front of Detector [cm]
 ---------------------------------------------------------------------------------------------------

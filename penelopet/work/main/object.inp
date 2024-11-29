@@ -1,4 +1,4 @@
 !TYPE MATERIAL X_CENTER Y_CENTER Z_CENTER R1 R2 HEIGHT[cm] PH_INC TH_INC[DEG]
-M S 1 0. 0. 0. 0. 7. 0. 0. 0.
+M S 1 0. 0. 0. 0. 15. 0. 0. 0.
 !WRITE ONE OBJECT PER LINE. FILE END WITH A STARTING CHARATER NOT VALID FOR TYPE
 --------------------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 declare iso="$1"	# e.g. C11, F18, Ga68
 
 # locate isotope id (first one)
-declare iso_id=$(grep -w "$iso" penelopet/mat/isotope.inp | awk '{print $1}')
+declare iso_id=$(grep -w "$iso" penelopet/mat/isotope.inp | head -1 | awk '{print $1}')
 
 # check if isotope exists
 if [ -z "$iso_id" ]; then
