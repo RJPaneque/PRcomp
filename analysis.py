@@ -114,6 +114,10 @@ class PRAnalysis:
         self.aPSF3D = self.aPSF3D / np.sum(self.aPSF3D)
         self.aPSF3D_sin = self.aPSF3D / np.max(self.aPSF3D)
 
+        #---cummulative radial distribution without histograms: G3D(r) = (i+1)/N for i=0..N-1
+        self.rsort = np.sort(self.rp)
+        self.G3D_nohist = np.arange(1, self.dsize+1)/self.dsize
+
     def interpol_G3D(self, val):
         """Interpolates the value of G3D(r) for a given results object"""
         x1 = self.rplot[self.G3D<val][-1]
@@ -135,7 +139,15 @@ class GetResults:
                 raise KeyError(f"Please use programs that are available: {self.active_results.keys()}")
         return results
 
-    def _singleFigurePlot(self, QoI, lim:float, log_scale:bool, title:str, xlabel:str, ylabel:str, labels:list[str]=None, sin:bool=False, legend_size:int=9):    # lim in mm
+    def _singleFigurePlot(self, QoI, 
+                          lim:float,    # lim in mm
+                          log_scale:bool, 
+                          title:str, 
+                          xlabel:str, ylabel:str,
+                          labels:list[str]=None, 
+                          sin:bool=False, 
+                          legend_size:int=9, 
+                          sublabels:dict[str]=None):    
         results = self._filterResults(labels)
 
         match QoI:
@@ -158,12 +170,18 @@ class GetResults:
                 xQoI = 'result.rplot'
                 yQoI = 'result.G3D'
                 mlim, Mlim = 0, lim
+            case 'G3D_nohist':
+                xQoI = 'result.rsort'
+                yQoI = 'result.G3D_nohist'
+                mlim, Mlim = 0, lim
             case _:
                 raise ValueError("Please use a valid QoI: aPSFx, aPSF3D, g3D, G3D")
 
 
         #plt.figure()
         for label, result in results.items():
+            if sublabels:
+                label = sublabels[label]
             plt.plot(eval(xQoI+'*10'), eval(yQoI), label=label) # *10 to convert to mm
         
         if log_scale: plt.yscale('log')
@@ -215,7 +233,10 @@ class GetResults:
         for label, result in results.items():
             print(f"     {label:<15} 50% @ {result.interpol_G3D(0.5)*10:>3.2f}mm\t90% @ {result.interpol_G3D(0.9)*10:.2f}mm")
 
-    def plot_meanZ(self, reduce=False, labels=None):
+    def plot_meanZ(self, 
+                   reduce=False, 
+                   labels=None, 
+                   sublabels=None):
         # reduce every count >=1 to 1 for better images
         # else recover them for not reloading previous sections
         results = self._filterResults(labels)
@@ -225,6 +246,8 @@ class GetResults:
         rows = len(results)//rows + len(results)%2
         k = 0
         for label, result in results.items():
+            if sublabels:
+                label = sublabels[label]
             img = result.img.copy()
             if reduce:      
                 img[img>0]=1
@@ -238,29 +261,64 @@ class GetResults:
 
         plt.show()
 
-    def plot_aPSFx(self, sin:bool, lim:float=None, log_scale=True, legend_size:int=9, labels=None):    # lim in mm
-        title = "annihilation Point Spread Function along x axis"
+    def plot_aPSFx(self, 
+                   sin:bool, 
+                   lim:float=None, 
+                   log_scale=True,
+                   legend_size:int=9, 
+                   title=None, 
+                   labels=None, 
+                   sublabels=None):    
+        title = "annihilation Point Spread Function along x axis"  if not title else title
         xlabel = "x (mm)"
         ylabel = r"$aPSF_{sin}(x)$" if sin else r"$aPSF(x)$"
-        self._singleFigurePlot('aPSFx', lim, log_scale, title, xlabel, ylabel, labels=labels, sin=sin, legend_size=legend_size)
+        self._singleFigurePlot('aPSFx', lim, log_scale, title, xlabel, ylabel, labels=labels, sin=sin, legend_size=legend_size, sublabels=sublabels)
 
-    def plot_aPSF3D(self, sin:bool, lim:float=None, log_scale=True, legend_size:int=9, labels=None):    # lim in mm
-        title = "annihilation Point Spread Function along radial distance"
+    def plot_aPSF3D(self, 
+                    sin:bool, 
+                    lim:float=None, 
+                    log_scale=True,
+                    labels=None, 
+                    title=None, 
+                    legend_size:int=9, 
+                    sublabels=None):    
+        title = "annihilation Point Spread Function along radial distance"  if not title else title
         xlabel = "r (mm)"
-        ylabel = r"$aPSF_{3Dsin}(x)$" if sin else r"$aPSF_{3D}(x)$"
-        self._singleFigurePlot('aPSF3D', lim, log_scale, title, xlabel, ylabel, labels=labels, sin=sin, legend_size=legend_size)
+        ylabel = r"$aPSF_{3Dsin}(r)$" if sin else r"$aPSF_{3D}(r)$"
+        self._singleFigurePlot('aPSF3D', lim, log_scale, title, xlabel, ylabel, labels=labels, sin=sin, legend_size=legend_size, sublabels=sublabels)
 
-    def plot_g3D(self, lim:float=None, log_scale=True, legend_size:int=9, labels=None):    # lim in mm
-        title = "radial annihilation distribution"
+    def plot_g3D(self, lim:float=None, 
+                 log_scale=True,          
+                 labels=None, 
+                 title=None, 
+                 legend_size:int=9, 
+                 sublabels=None):   
+        title = "radial annihilation distribution"  if not title else title
         xlabel = "r (mm)"
         ylabel = r"$g_{3D}(r)$"
-        self._singleFigurePlot('g3D', lim, log_scale, title, xlabel, ylabel, labels=labels, legend_size=legend_size)
+        self._singleFigurePlot('g3D', lim, log_scale, title, xlabel, ylabel, labels=labels, legend_size=legend_size, sublabels=sublabels)
 
-    def plot_G3D(self, lim:float=None, legend_size:int=9, labels=None):    # lim in mm
-        title = "cummulative radial annihilation distribution"
+    def plot_G3D(self, 
+                 lim:float=None, 
+                 labels=None, 
+                 title=None, 
+                 legend_size:int=9, 
+                 sublabels=None):   
+        title = "Cummulative radial annihilation distribution" if not title else title
         xlabel = "r (mm)"
         ylabel = r"$G_{3D}(r)$"
-        self._singleFigurePlot('G3D', lim, False, title, xlabel, ylabel, labels=labels, legend_size=legend_size)
+        self._singleFigurePlot('G3D', lim, False, title, xlabel, ylabel, labels=labels, legend_size=legend_size, sublabels=sublabels)
+
+    def plot_G3D_nohist(self, 
+                        lim:float=None,
+                        labels=None, 
+                        title=None, 
+                        legend_size:int=9, 
+                        sublabels=None):    
+        title = "Cummulative radial annihilation distribution" if not title else title
+        xlabel = "r (mm)"
+        ylabel = r"$G_{3D}(r)$"
+        self._singleFigurePlot('G3D_nohist', lim, False, title, xlabel, ylabel, labels=labels, legend_size=legend_size, sublabels=sublabels)
 
 
 def filter_rmax(file_in, file_out, threshold=100, trim:int=None, fmt='%.6e'):   # threshold in mm
