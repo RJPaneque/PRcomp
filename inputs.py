@@ -248,10 +248,11 @@ class PeneloPET(InputEditor):
     def __init__(self, verbose=True):
         super().__init__(verbose)
         # material info table (mat name, mat id, mass density)
-        self.MATS ={'water':    ['water', None, 1.01130250E+00],    
-                    'air':      ['air', None,  1.21000000E-03],
-                    'lung':     ['lung', None, 4.80000000E-01],
-                    'bone':     ['bone_cor', None, 1.87540000E+00]}
+        self.MATS ={'water':    ['water', 0, 1.01130250E+00],    
+                    'air':      ['air', 0,  1.21000000E-03],
+                    'lung':     ['lung', 0, 4.80000000E-01],
+                    #'bcor':     ['bone_cor', 0, 1.87540000E+00],
+                    'bone':     ['bone_B100', 0, 1.00000000E+00]}
         
         self.available_pids = Simulators.PeneloPET.available_pids
 
@@ -274,23 +275,25 @@ class PeneloPET(InputEditor):
         if len(MATS) != 1:
             raise KeyError(f"Heterogenous material edition is not implemented for PeneloPET")
         
-        mat = [_[0] for _ in MATS.items()][0]
-        self._run_bin([f"./bin/materialpenelopet.sh", mat])
+        mat = [_[0] for _ in MATS.values()][0]
+        self._run_bin([f"./bin/penelopet/material.sh", mat])
 
-    def edit_source_nhist(self, pid:str, nhist:str):
+    def edit_source_activity(self, pid:str, act:str):
         if pid not in self.available_pids:
             raise KeyError(f"Source nhist can only be edited for pids {self.available_pids}")
         # Point source
-        self._run_bin([f"./bin/penelopet/activity.sh", nhist])
+        self._run_bin([f"./bin/penelopet/activity.sh", act])
 
+        """
         # Voxelized source (not used)
         with open("penelopet/work/main/source.raw", 'rb') as f:
             ACTIVITY = np.fromfile(f, dtype='float32')
-        ACTIVITY[ACTIVITY>0] = float(nhist)/np.sum(ACTIVITY>0) * 1e3  #dont know why its reduced a factor of 1000
+        ACTIVITY[ACTIVITY>0] = float(act)/np.sum(ACTIVITY>0) * 1e3  #dont know why its reduced a factor of 1000
         ACTIVITY.tofile('penelopet/work/main/source.raw', format="%f")
         
         if self.verbose: 
-            print(f"\"penelopet/work/main/source.raw\" updated to point source of activity {nhist}")
+            print(f"\"penelopet/work/main/source.raw\" updated to point source of activity {act}")
+        """
 
 
 class Hybrid(InputEditor):

@@ -131,12 +131,37 @@ class PenEasy(HostSimulator):
             print(f"{guest.name} activated")
 
 class PeneloPET(HostSimulator):
-    available_pids = ['PET20', # bug in the emission spectrum is present
-                      'PET24', # bug in the emission spectrum is fixed
+    available_pids = ['2020', # bug in the emission spectrum is present
+                      '2024', # bug in the emission spectrum is fixed
                      ]
     
     def __init__(self, verbose=False):
         super().__init__(verbose)
+
+    def activate_pid(self, pid:str):
+        pid = pid.upper()
+        if pid not in PeneloPET.available_pids:
+            raise ValueError(f"Invalid pid {pid}. Available pids are {PeneloPET.available_pids}")
+
+        match pid:
+            case '2020': # PeneloPET 2020 with bug in the emission spectrum
+                simul_command = "./penelopet_2020.x main"
+            case '2024': # PeneloPET 2024 with fixed bug in the emission spectrum
+                simul_command = "./penelopet_2024_R.x main"
+
+        guest = GuestSimulator(
+            pid=pid, 
+            name=f"PeneloPET {pid}", 
+            bash_dir="penelopet",
+            simul_dir="penelopet/work", 
+            simul_command=simul_command, 
+            output_file="penelopet/work/main/annihilation.dat", 
+            output_format="dat"
+            )
+        
+        HostSimulator.active_simulators[pid] = guest
+        if self.verbose:
+            print(f"{guest.name} activated")
     
 class HybridMC(HostSimulator):
     available_pids = ['HYB',   # HybridMC simulation
