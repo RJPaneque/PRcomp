@@ -147,7 +147,8 @@ class GetResults:
                           labels:list[str]=None, 
                           sin:bool=False, 
                           legend_size:int=9, 
-                          sublabels:dict[str]=None):    
+                          sublabels:dict[str]=None,
+                          fmt:str=''):    
         results = self._filterResults(labels)
 
         match QoI:
@@ -182,7 +183,7 @@ class GetResults:
         for label, result in results.items():
             if sublabels:
                 label = sublabels[label]
-            plt.plot(eval(xQoI+'*10'), eval(yQoI), label=label) # *10 to convert to mm
+            plt.plot(eval(xQoI+'*10'), eval(yQoI), fmt, label=label) # *10 to convert to mm
         
         if log_scale: plt.yscale('log')
         if lim: plt.xlim([mlim, Mlim])
@@ -215,23 +216,23 @@ class GetResults:
 
         print("Size of annihilations sample:")
         for label, result in results.items():
-            print(f"     {label:<15} {result.dsize:>10}")
+            print(f"     {label:<40}\t{result.dsize:>10}")
 
         print("Number of annihilation point coords:")
         for label, result in results.items():
-            print(f"     {label:<15} {result.dpoints:>10}")
+            print(f"     {label:<40}\t{result.dpoints:>10}")
 
         print("Maximum radial distance traveled simulated:")
         for label, result in results.items():
-            print(f"     {label:<15} {result.rmax*10:>10.2f} mm")
+            print(f"     {label:<40}\t{result.rmax*10:>10.2f} mm")
 
         print("Average radial distance traveled simulated:")
         for label, result in results.items():
-            print(f"     {label:<15} {np.mean(result.rp)*10:>10.2f} mm")
+            print(f"     {label:<40}\t{np.mean(result.rp)*10:>10.2f} mm")
 
         print("Cummulative distances:")
         for label, result in results.items():
-            print(f"     {label:<15} 50% @ {result.interpol_G3D(0.5)*10:>3.2f}mm\t90% @ {result.interpol_G3D(0.9)*10:.2f}mm")
+            print(f"     {label:<40}\t50% @ {result.interpol_G3D(0.5)*10:>3.2f}mm\t90% @ {result.interpol_G3D(0.9)*10:.2f}mm")
 
     def plot_meanZ(self, 
                    reduce=False, 
@@ -268,11 +269,13 @@ class GetResults:
                    legend_size:int=9, 
                    title=None, 
                    labels=None, 
-                   sublabels=None):    
+                   sublabels=None,
+                   fmt:str=''):    
         title = "annihilation Point Spread Function along x axis"  if not title else title
         xlabel = "x (mm)"
         ylabel = r"$aPSF_{sin}(x)$" if sin else r"$aPSF(x)$"
-        self._singleFigurePlot('aPSFx', lim, log_scale, title, xlabel, ylabel, labels=labels, sin=sin, legend_size=legend_size, sublabels=sublabels)
+        self._singleFigurePlot('aPSFx', lim, log_scale, title, xlabel, ylabel, 
+                               labels=labels, sin=sin, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
 
     def plot_aPSF3D(self, 
                     sin:bool, 
@@ -281,44 +284,52 @@ class GetResults:
                     labels=None, 
                     title=None, 
                     legend_size:int=9, 
-                    sublabels=None):    
+                    sublabels=None,
+                    fmt:str=''):    
         title = "annihilation Point Spread Function along radial distance"  if not title else title
         xlabel = "r (mm)"
         ylabel = r"$aPSF_{3Dsin}(r)$" if sin else r"$aPSF_{3D}(r)$"
-        self._singleFigurePlot('aPSF3D', lim, log_scale, title, xlabel, ylabel, labels=labels, sin=sin, legend_size=legend_size, sublabels=sublabels)
+        self._singleFigurePlot('aPSF3D', lim, log_scale, title, xlabel, ylabel, 
+                               labels=labels, sin=sin, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
 
     def plot_g3D(self, lim:float=None, 
                  log_scale=True,          
                  labels=None, 
                  title=None, 
                  legend_size:int=9, 
-                 sublabels=None):   
+                 sublabels=None,
+                 fmt:str=''):   
         title = "radial annihilation distribution"  if not title else title
         xlabel = "r (mm)"
         ylabel = r"$g_{3D}(r)$"
-        self._singleFigurePlot('g3D', lim, log_scale, title, xlabel, ylabel, labels=labels, legend_size=legend_size, sublabels=sublabels)
+        self._singleFigurePlot('g3D', lim, log_scale, title, xlabel, ylabel, 
+                               labels=labels, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
 
     def plot_G3D(self, 
                  lim:float=None, 
                  labels=None, 
                  title=None, 
                  legend_size:int=9, 
-                 sublabels=None):   
+                 sublabels=None,
+                 fmt:str=''):   
         title = "Cummulative radial annihilation distribution" if not title else title
         xlabel = "r (mm)"
         ylabel = r"$G_{3D}(r)$"
-        self._singleFigurePlot('G3D', lim, False, title, xlabel, ylabel, labels=labels, legend_size=legend_size, sublabels=sublabels)
+        self._singleFigurePlot('G3D', lim, False, title, xlabel, ylabel, 
+                               labels=labels, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
 
     def plot_G3D_nohist(self, 
                         lim:float=None,
                         labels=None, 
                         title=None, 
                         legend_size:int=9, 
-                        sublabels=None):    
+                        sublabels=None,
+                        fmt:str=''):    
         title = "Cummulative radial annihilation distribution" if not title else title
         xlabel = "r (mm)"
         ylabel = r"$G_{3D}(r)$"
-        self._singleFigurePlot('G3D_nohist', lim, False, title, xlabel, ylabel, labels=labels, legend_size=legend_size, sublabels=sublabels)
+        self._singleFigurePlot('G3D_nohist', lim, False, title, xlabel, ylabel, 
+                               labels=labels, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
 
 
 def filter_rmax(file_in, file_out, threshold=100, trim:int=None, fmt='%.6e'):   # threshold in mm
