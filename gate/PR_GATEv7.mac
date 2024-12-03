@@ -49,7 +49,7 @@
 /gate/source/src/gps/centre        0.0 0.0 0.0 mm
 /gate/source/src/setActivity       1e12 becquerel
 
-/control/execute    mac/sources/emission/spc_fixed_F18.mac
+/control/execute    mac/sources/emission/spc_fixed_C11.mac
 
 /gate/source/src/gps/angtype           iso
 /gate/source/src/visualize             cyan
@@ -60,7 +60,7 @@
 # Random engine and seed
 ##########################################################
 /gate/random/setEngineName JamesRandom
-/gate/random/setEngineSeed 12345
+/gate/random/setEngineSeed 37192
 /gate/random/verbose 0
 
 ##########################################################
@@ -71,9 +71,9 @@
 ##########################################################
 # Start data acquisition
 ##########################################################
-/gate/application/setTimeSlice   10 s
+/gate/application/setTimeSlice   1 s
 /gate/application/setTimeStart   0 s
-/gate/application/setTimeStop    10 s
+/gate/application/setTimeStop    1 s
 
 /gate/application/setTotalNumberOfPrimaries 1e6
 /gate/application/startDAQ

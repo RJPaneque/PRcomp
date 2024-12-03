@@ -1,7 +1,7 @@
 /gate/phantom/daughters/name            mat1
 /gate/phantom/daughters/insert          box
 /gate/mat1/placement/setTranslation     0.0 0.0 0.0  mm
-/gate/mat1/geometry/setXLength          1 cm
-/gate/mat1/geometry/setYLength          1 cm
-/gate/mat1/geometry/setZLength          1 cm
-/gate/mat1/setMaterial                  BoneB100
+/gate/mat1/geometry/setXLength          8 cm
+/gate/mat1/geometry/setYLength          8 cm
+/gate/mat1/geometry/setZLength          8 cm
+/gate/mat1/setMaterial                  LungICRP

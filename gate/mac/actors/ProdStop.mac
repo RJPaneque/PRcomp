@@ -4,7 +4,7 @@
 /gate/actor/positron_range/save                             output/Image.mhd
 /gate/actor/positron_range/attachTo                         phantom
 /gate/actor/positron_range/setPosition                      0.00 0.00 0.00 mm
-/gate/actor/positron_range/setSize                          1 1 1 cm
+/gate/actor/positron_range/setSize                          8 8 8 cm
 /gate/actor/positron_range/setResolution                    20 20 20
 /gate/actor/positron_range/stepHitType                      post
 /gate/actor/positron_range/saveEveryNSeconds                30
