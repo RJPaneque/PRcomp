@@ -9,13 +9,9 @@ if [ ! -f "penEasy/mat/$mat.mat" ]; then
     exit 1
 fi
 
-# penEasy SPC
-sed -i -E "s/mat\/[a-zA-Z0-9]+.mat/mat\/$mat.mat/" penEasy/normal_spc.in
-echo \"penEasy/normal_spc.in\" material modified to $mat
-
-# penEasy NUC
-sed -i -E "s/mat\/[a-zA-Z0-9]+.mat/mat\/$mat.mat/" penEasy/normal_nuc.in
-echo \"penEasy/normal_nuc.in\" material modified to $mat
+# penEasy SPC & NUC
+sed -i -E "s/mat\/[a-zA-Z0-9]+.mat/mat\/$mat.mat/" penEasy/pen??_spc.in penEasy/pen??_nuc.in
+echo \"penEasy/pen??_spc.in\" and \"penEasy/pen??_nuc.in\"  material modified to $mat
 
 # phantomN.vox
 change_phantom=true

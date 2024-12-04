@@ -38,10 +38,10 @@
 # >>>> GENERAL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 [SECTION CONFIG v.2013-03-18]
- 1e4             NUMBER OF HISTORIES (1.0e15 MAX)
+ 1e6             NUMBER OF HISTORIES (1.0e15 MAX)
  1.0e30            ALLOTTED TIME (s) (+ FOR REAL TIME, - FOR CPU TIME)
  100.0             UPDATE INTERVAL (s)
- 28980  19346              INITIAL RANDOM SEEDS
+ 12345  54321              INITIAL RANDOM SEEDS
  -                 SEEDS FILE; MUST ENTER SEEDS=0,0 TO APPLY
  -                 RESTART FILE; MUST ENTER SEEDS=-1,-1 TO APPLY
  penEasy.dmp       OUTPUT DUMP FILE; ENTER '-' FOR 'NO DUMP'
@@ -58,7 +58,7 @@
  0                               ACTIVATE PHOTON POLARIZATION PHYSICS (0=NO, 1=YES)
  0.0 0.0 0.0                     STOKES PARAMETERS (USED ONLY IF ACTIVATE POLARIZATION=1)
   SUBSECTION FOR PARTICLE POSITION:
- 2  2  2                COORDINATES (cm) OF BOX CENTER
+ 4  4  4                COORDINATES (cm) OF BOX CENTER
  0.0  0.0  0.0                   BOX SIDES (cm)
  0.0  0.0                        FWHMs (cm) OF GAUSSIAN X,Y DISTRIBUTIONS
  0.0  0.0  0.0                   EULER ANGLES [OMEGA,THETA,PHI](deg) FOR BOX ROTATION Rz(PHI).Ry(THETA).Rz(OMEGA).r
@@ -116,7 +116,7 @@
 
 [SECTION PENELOPE v.2019-08-06]
  MAT# FILE___(max 20 char) EABS(e-)  EABS(ph)  EABS(e+)  C1    C2    WCC      WCR      DSMAX   COMMENTS
-  1   mat/water.mat            100.0e6   100.00e6   1.0e2   0.05   0.05   2.0e3  2.0e3  1.0e30  ft
+  1   mat/lung.mat            100.0e6   100.00e6   1.0e2   0.05   0.05   2.0e3  2.0e3  1.0e30  ft
  -1 (SET MAT=-1 TO END THE LIST)
 [END OF PEN SECTION]
 

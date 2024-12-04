@@ -38,8 +38,10 @@ class HostSimulator:
         # get output file's name and format
         if not final_file:
             final_file = f"{output_dir}/{self.pid}.{self.output_format}"
+        elif "." not in final_file:
+            final_file = f"{output_dir}/{final_file}.{self.output_format}"  
         else:
-            final_file = f"{output_dir}/{final_file}.{self.output_format}"                         
+            final_file = f"{output_dir}/{final_file}"                       
 
         # run simulations and get timings
         for run in range(runs):
@@ -97,28 +99,37 @@ class PenEasy(HostSimulator):
                       'NUC'  # original penEasy with internal emission spectrum (nuclear decay simulation)
                       ]
     
+    available_vers = ['20',  # penEasy 2020
+                      '24',  # penEasy 2024
+                      ]
+    
     def __init__(self, verbose=False):
         super().__init__(verbose)
     
-    def activate_pid(self, pid:str):
+    def activate_pid(self, pid:str, ver:str):
         pid = pid.upper()
         if pid not in PenEasy.available_pids:
             raise ValueError(f"Invalid pid {pid}. Available pids are {PenEasy.available_pids}")
+        if ver not in PenEasy.available_vers:
+            raise ValueError(f"Invalid version {ver}. Available versions are {PenEasy.available_vers}")
+        
+        if pid == 'MOD' and ver != '20':
+            raise ValueError(f"Modified code of PenEasy is only available for version 2020")
 
         match pid:
             case 'MOD': # modified, accelerated version of penEasy
-                simul_command = "./modified.x<modified.in"
+                simul_command = f"./pen{ver}mod.x<pen{ver}mod.in"
                 output_file = "penEasy/image_out.raw"
                 output_format = "raw"
             
             case 'SPC' | 'NUC': # original penEasy with external/internal emission spectrum (external file with spectrum/nuclear decay simulation)
-                simul_command = f"./run_normal.sh {pid.lower()}"
-                output_file = "penEasy/PosRange.dat"
+                simul_command = f"./run_normal.sh {pid.lower()} {ver}"
+                output_file = "penEasy/annihilation.dat"
                 output_format = "dat"
 
         guest = GuestSimulator(
             pid=pid, 
-            name=f"penEasy {pid}", 
+            name=f"penEasy 20{ver} {pid}", 
             bash_dir="penEasy",
             simul_dir="penEasy", 
             simul_command=simul_command, 

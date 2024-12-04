@@ -6,7 +6,7 @@
 #   editing this file.
 #
 # Last update:
-#   2019-09-21 by JS
+#   2024-03-13 by JS
 
 
 # >>>> GENERAL INSTRUCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -38,7 +38,7 @@
 # >>>> GENERAL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 [SECTION CONFIG v.2013-03-18]
- 1e4             NUMBER OF HISTORIES (1.0e15 MAX)
+ 1e6             NUMBER OF HISTORIES (1.0e15 MAX)
  1.0e30            ALLOTTED TIME (s) (+ FOR REAL TIME, - FOR CPU TIME)
  100.0             UPDATE INTERVAL (s)
  12345  54321              INITIAL RANDOM SEEDS
@@ -58,7 +58,7 @@
  0                               ACTIVATE PHOTON POLARIZATION PHYSICS (0=NO, 1=YES)
  0.0 0.0 0.0                     STOKES PARAMETERS (USED ONLY IF ACTIVATE POLARIZATION=1)
   SUBSECTION FOR PARTICLE POSITION:
- 2  2  2                COORDINATES (cm) OF BOX CENTER
+ 4  4  4                COORDINATES (cm) OF BOX CENTER
  0.0  0.0  0.0                   BOX SIDES (cm)
  0.0  0.0                        FWHMs (cm) OF GAUSSIAN X,Y DISTRIBUTIONS
  0.0  0.0  0.0                   EULER ANGLES [OMEGA,THETA,PHI](deg) FOR BOX ROTATION Rz(PHI).Ry(THETA).Rz(OMEGA).r
@@ -71,11 +71,11 @@
  1                               APPLY ALSO TO DIRECTION THE ROTATION USED FOR BOX POSITION (0=NO, 1=YES)
 [END OF BIGS SECTION]
 #  SUBSECTION FOR PARTICLE ENERGY:  (REMOVE THIS SUBSECTION IF RADIONUCLIDE IS USED AS PARTICLE TYPE)
-# pnnc_spec.dat                               ENERGY SPECTRUM FILE NAME; ENTER '-' TO ENTER SPECTRUM IN NEXT LINES
+# pnnc_spec.dat                    ENERGY SPECTRUM FILE NAME; ENTER '-' TO ENTER SPECTRUM IN NEXT LINES
 # 0.0                             FWHM(eV) OF GAUSSIAN ENERGY DISTRIB. [NOTE FWHM=SIGMA*sqrt(8*ln(2))]
 # Energy(eV)  Probability         DUMMY HEADER LINE; REMOVE HEADER AND TABLE IF A FILENAME WAS PROVIDED ABOVE
-# 800.0e3      1.0                   Spectrum table, arbitrary normalization. Example: a single channel [10,10]MeV of null width
-# 800.0e3      -1                    Enter a negative prob. to signal the end of the table
+# 10.0e6      1.0                   Spectrum table, arbitrary normalization. Example: a single channel [10,10]MeV of null width
+# 10.0e6      -1                    Enter a negative prob. to signal the end of the table
 
 [SECTION SOURCE PHASE SPACE FILE v.2009-06-15]
  OFF                             STATUS (ON or OFF)
@@ -84,9 +84,20 @@
  1                               SPLITTING FACTOR
  0.0  0.0  0.0                   EULER ANGLES [Rz,Ry,Rz](deg) TO ROTATE POSITION AND DIRECTION
  0.0  0.0  0.0                   TRANSLATION [DX,DY,DZ](cm) OF POSITION
- 0                               VALIDATE BEFORE SIMULATION (1=YES, MAY TAKE A WHILE; 0=NO)
+ 1                               VALIDATE BEFORE SIMULATION (1=YES, MAY TAKE A WHILE; 0=NO)
  0.000e0                         MAX PSF ENERGY (eV) (UNUSED IF VALIDATE=1 OR IAEA FORMAT. ADD 1023 keV FOR e+)
 [END OF SPSF SECTION]
+
+
+# >>>> EM fields >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+[SECTION EMF v.2024-02-04]
+ 0.0 0.0 0.0                     X,Y,Z COMPONENTS OF THE ELECTRIC FIELD (volt/cm)
+ 0.0 0.0 0.0                     X,Y,Z COMPONENTS OF THE MAGNETIC FIELD (gauss)
+ 0.01                            MAX FRACTIONAL CHANGE IN DIRECTION (ULDV PARAMETER)
+ 0.01                            MAX FRACTIONAL CHANGE IN ENERGY    (ULDE PARAMETER)
+ 0.01                            MAX FRACTIONAL CHANGE IN FIELDS    (ULEM PARAMETER)
+[END OF EMF SECTION]
 
 
 # >>>> PENGEOM+PENVOX >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -115,7 +126,7 @@
 
 [SECTION PENELOPE v.2019-08-06]
  MAT# FILE___(max 20 char) EABS(e-)  EABS(ph)  EABS(e+)  C1    C2    WCC      WCR      DSMAX   COMMENTS
-  1   mat/water.mat            100.0e6   100.00e6   1.0e2   0.05   0.05   2.0e3  2.0e3  1.0e30  ft
+  1   mat/lung.mat            100.0e6   100.00e6   1.0e2   0.05   0.05   2.0e3  2.0e3  1.0e30  ft
  -1 (SET MAT=-1 TO END THE LIST)
 [END OF PEN SECTION]
 
