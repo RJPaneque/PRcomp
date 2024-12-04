@@ -126,7 +126,7 @@
 
 [SECTION PENELOPE v.2019-08-06]
  MAT# FILE___(max 20 char) EABS(e-)  EABS(ph)  EABS(e+)  C1    C2    WCC      WCR      DSMAX   COMMENTS
-  1   mat/lung.mat            100.0e6   100.00e6   1.0e2   0.05   0.05   2.0e3  2.0e3  1.0e30  ft
+  1   mat/bone.mat            100.0e6   100.00e6   1.0e2   0.05   0.05   2.0e3  2.0e3  1.0e30  ft
  -1 (SET MAT=-1 TO END THE LIST)
 [END OF PEN SECTION]
 
