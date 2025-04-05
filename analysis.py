@@ -194,14 +194,13 @@ class GetResults:
         
         if log_scale: plt.yscale('log')
 
-        plt.title(title)
-        plt.grid()
+        plt.title(title, fontsize=20, fontweight='bold')
+        plt.xlabel(xlabel, fontsize=20)
+        plt.ylabel(ylabel, fontsize=20)
+        
+        ax, leg = aesthetic_plot(legend_size=legend_size, linewidth=2, fontsize=20)
 
-        ax = plt.gca()
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_linewidth(2)
-        ax.spines['bottom'].set_linewidth(2)
+        if lim: ax.set_xlim([mlim, Mlim])
 
         if QoI == 'g3D':
             ax.set_ylim(bottom=0)
@@ -214,13 +213,6 @@ class GetResults:
             ax.set_ylim(bottom=0)
             ax.set_xlim(left=0)
 
-        leg = plt.legend(prop={'size': legend_size})
-        leg.get_frame().set_edgecolor('black')
-        leg.get_frame().set_linewidth(1)
-
-        if lim: ax.set_xlim([mlim, Mlim])
-        plt.xlabel(xlabel, fontsize=13)
-        plt.ylabel(ylabel, fontsize=13)
         #plt.show()
 
     def __init__(self, verbose=False): 	
@@ -363,16 +355,34 @@ class GetResults:
                                labels=labels, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
         
         
-def aesthetic_plot(legend_size=9):
+def aesthetic_plot(legend_size=9, linewidth=2, fontsize=20):
     ax = plt.gca()
+    # Fancier spines
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['left'].set_linewidth(2)
     ax.spines['bottom'].set_linewidth(2)
     ax.set_ylim(bottom=0)
+
+    # Resize labels
+    xl = ax.get_xlabel()
+    yl = ax.get_ylabel()
+    tl = ax.get_title()
+    ax.set_title(tl, fontsize=fontsize, fontweight='bold')
+    ax.set_xlabel(xl, fontsize=fontsize)
+    ax.set_ylabel(yl, fontsize=fontsize)
+
+    # Thicker lines
+    if linewidth:
+        for line in ax.get_lines():
+            line.set_linewidth(linewidth)
+
+    # Fancier legend
     leg = plt.legend(prop={'size': legend_size})
     leg.get_frame().set_edgecolor('black')
     leg.get_frame().set_linewidth(1)
+
+    # Grid
     plt.grid()
     return ax, leg
 
@@ -387,6 +397,6 @@ def filter_rmax(file_in, file_out, threshold=100, trim:int=None, fmt='%.6e'):   
     a = a[r < threshold, :]
     if trim < len(a):
         a = a[:trim]
-    np.savetxt(file_out, a/10, fmt=fmt)
+    np.savetxt(file_out, a/10, fmt=fmt) #cm
     print(f"Filtered '{file_in}' to '{file_out}': {np.sum(r>threshold)} points removed")
     return
