@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import ScalarFormatter
+
+def iso_in_plots(isotope:str):
+    """Returns the isotope in a fancier way for plots"""
+    symbol = ''.join([i for i in isotope if i.isalpha()])
+    number = ''.join([i for i in isotope if i.isdigit()])
+    return f"{symbol}-{number}"
 
 class PRAnalysis:
     def __init__(self, label:str, file:str, SIZE:list[int], STEP:list[float],  raw_format='float32'): 	# vox_size in cm
@@ -186,10 +193,34 @@ class GetResults:
             plt.plot(eval(xQoI+'*10'), eval(yQoI), fmt, label=label) # *10 to convert to mm
         
         if log_scale: plt.yscale('log')
-        if lim: plt.xlim([mlim, Mlim])
-        plt.legend(prop={'size': legend_size})
+
         plt.title(title)
-        plt.xlabel(xlabel); plt.ylabel(ylabel)
+        plt.grid()
+
+        ax = plt.gca()
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['left'].set_linewidth(2)
+        ax.spines['bottom'].set_linewidth(2)
+
+        if QoI == 'g3D':
+            ax.set_ylim(bottom=0)
+            if not log_scale:
+                formatter = ScalarFormatter(useMathText=True)
+                formatter.set_powerlimits((-4, -2))
+                ax.yaxis.set_major_formatter(formatter)
+
+        if 'G3D' in QoI:
+            ax.set_ylim(bottom=0)
+            ax.set_xlim(left=0)
+
+        leg = plt.legend(prop={'size': legend_size})
+        leg.get_frame().set_edgecolor('black')
+        leg.get_frame().set_linewidth(1)
+
+        if lim: ax.set_xlim([mlim, Mlim])
+        plt.xlabel(xlabel, fontsize=13)
+        plt.ylabel(ylabel, fontsize=13)
         #plt.show()
 
     def __init__(self, verbose=False): 	
@@ -272,8 +303,8 @@ class GetResults:
                    sublabels=None,
                    fmt:str=''):    
         title = "annihilation Point Spread Function along x axis"  if not title else title
-        xlabel = "x (mm)"
-        ylabel = r"$aPSF_{sin}(x)$" if sin else r"$aPSF(x)$"
+        xlabel = r"$x$ (mm)"
+        ylabel = r"$aPSF_{sin}(x)$" if sin else r"aPSF$(x)$"
         self._singleFigurePlot('aPSFx', lim, log_scale, title, xlabel, ylabel, 
                                labels=labels, sin=sin, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
 
@@ -287,8 +318,8 @@ class GetResults:
                     sublabels=None,
                     fmt:str=''):    
         title = "annihilation Point Spread Function along radial distance"  if not title else title
-        xlabel = "r (mm)"
-        ylabel = r"$aPSF_{3Dsin}(r)$" if sin else r"$aPSF_{3D}(r)$"
+        xlabel = r"$r$ (mm)"
+        ylabel = r"$aPSF_{3D}(r)$" # r"$aPSF_{3Dsin}(r)$" if sin else r"$aPSF_{3D}(r)$"
         self._singleFigurePlot('aPSF3D', lim, log_scale, title, xlabel, ylabel, 
                                labels=labels, sin=sin, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
 
@@ -300,7 +331,7 @@ class GetResults:
                  sublabels=None,
                  fmt:str=''):   
         title = "radial annihilation distribution"  if not title else title
-        xlabel = "r (mm)"
+        xlabel = r"$r$ (mm)"
         ylabel = r"$g_{3D}(r)$"
         self._singleFigurePlot('g3D', lim, log_scale, title, xlabel, ylabel, 
                                labels=labels, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
@@ -313,7 +344,7 @@ class GetResults:
                  sublabels=None,
                  fmt:str=''):   
         title = "Cummulative radial annihilation distribution" if not title else title
-        xlabel = "r (mm)"
+        xlabel = r"$r$ (mm)"
         ylabel = r"$G_{3D}(r)$"
         self._singleFigurePlot('G3D', lim, False, title, xlabel, ylabel, 
                                labels=labels, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
@@ -326,11 +357,24 @@ class GetResults:
                         sublabels=None,
                         fmt:str=''):    
         title = "Cummulative radial annihilation distribution" if not title else title
-        xlabel = "r (mm)"
+        xlabel = r"$r$ (mm)"
         ylabel = r"$G_{3D}(r)$"
         self._singleFigurePlot('G3D_nohist', lim, False, title, xlabel, ylabel, 
                                labels=labels, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
-
+        
+        
+def aesthetic_plot(legend_size=9):
+    ax = plt.gca()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_linewidth(2)
+    ax.spines['bottom'].set_linewidth(2)
+    ax.set_ylim(bottom=0)
+    leg = plt.legend(prop={'size': legend_size})
+    leg.get_frame().set_edgecolor('black')
+    leg.get_frame().set_linewidth(1)
+    plt.grid()
+    return ax, leg
 
 def filter_rmax(file_in, file_out, threshold=100, trim:int=None, fmt='%.6e'):   # threshold in mm
     if file_in == file_out:
