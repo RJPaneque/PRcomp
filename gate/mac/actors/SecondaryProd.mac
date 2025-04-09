@@ -1,3 +1,0 @@
-/gate/actor/addActor  SecondaryProductionActor     MyActor
-/gate/actor/MyActor/save                           output/Prod.root
-/gate/actor/MyActor/attachTo                       phantom

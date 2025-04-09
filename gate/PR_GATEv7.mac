@@ -29,8 +29,6 @@
 ##########################################################
 /control/execute                mac/actors/stats.mac
 /control/execute                mac/actors/ProdStop.mac
-#/control/execute                mac/actors/PhaseSpace.mac
-#/control/execute                mac/actors/SecondaryProd.mac
 
 /tracking/verbose 2
 
