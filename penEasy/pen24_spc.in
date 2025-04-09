@@ -41,7 +41,7 @@
  1e6             NUMBER OF HISTORIES (1.0e15 MAX)
  1.0e30            ALLOTTED TIME (s) (+ FOR REAL TIME, - FOR CPU TIME)
  100.0             UPDATE INTERVAL (s)
- 12345  54321              INITIAL RANDOM SEEDS
+ 33437  53465              INITIAL RANDOM SEEDS
  -                 SEEDS FILE; MUST ENTER SEEDS=0,0 TO APPLY
  -                 RESTART FILE; MUST ENTER SEEDS=-1,-1 TO APPLY
  penEasy.dmp       OUTPUT DUMP FILE; ENTER '-' FOR 'NO DUMP'
@@ -126,7 +126,7 @@
 
 [SECTION PENELOPE v.2019-08-06]
  MAT# FILE___(max 20 char) EABS(e-)  EABS(ph)  EABS(e+)  C1    C2    WCC      WCR      DSMAX   COMMENTS
-  1   mat/bone.mat            100.0e6   100.00e6   1.0e2   0.05   0.05   2.0e3  2.0e3  1.0e30  ft
+  1   mat/boneB100.mat            100.0e6   100.00e6   1.0e2   0.05   0.05   2.0e3  2.0e3  1.0e30  ft
  -1 (SET MAT=-1 TO END THE LIST)
 [END OF PEN SECTION]
 

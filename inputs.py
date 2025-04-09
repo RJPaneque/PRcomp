@@ -198,7 +198,7 @@ class PenEasy(InputEditor):
 
         # update normal_spc/nuc.in files
         if pid in ['SPC', 'NUC']:
-            mat_file = [_[0] for _ in MATS.items()][0]
+            mat_file = [_[0] for _ in MATS.values()][0]
             self._run_bin([f"./bin/penEasy/material_normal.sh", mat_file])
 
         if self.verbose:
