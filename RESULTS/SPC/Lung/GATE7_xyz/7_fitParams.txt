@@ -1,4 +1,0 @@
-# Fitting function: 1 - exp(-(a*x + b*x^2  + c*x^4))
-# Isotope residual chi2    a      b      c     
-C11        3.301  149.941  0.153  0.031  0.000
-F18        4.288  228.558  0.325  0.080 -0.000
