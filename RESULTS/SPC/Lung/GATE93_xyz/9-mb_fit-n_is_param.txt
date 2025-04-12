@@ -1,0 +1,4 @@
+# Fitting function: -0.515*exp(-(a1*x)**n1 - (b1*x)**2.5 - (c1*x)**3.5) - 0.471*exp(-(a2*x)**n2 - (b2*x)**2.5 - (c2*x)**3.5) - 0.014*exp(-(a3*x)**n3 - (b3*x)**2.5 - (c3*x)**3.5) + 1
+# Constants: None
+# Isotope  residue    rmse       chi2       a1     b1     c1     n1     a2     b2     c2     n2     a3     b3     c3     n3    
+Ga68       2.617      2.62e-03   0.000      0.113  0.000  0.053  1.449  8.906  46.441 96.712 1.460 
