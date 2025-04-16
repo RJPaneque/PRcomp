@@ -22,7 +22,8 @@
 # Physics
 ##########################################################
 /gate/physics/addProcess       RadioactiveDecay
-/gate/physics/addPhysicsList    emstandard_opt3    # emstandard_opt3 emlivermore emlivermore_polar empenelope
+#/gate/physics/addPhysicsList    emstandard_opt3    # emstandard_opt3 emlivermore emlivermore_polar empenelope
+/control/execute               mac/user_defined_physics.mac
 
 ##########################################################
 # Simulation output
@@ -49,7 +50,7 @@
 /gate/source/src/gps/pos/centre        0.0 0.0 0.0 mm
 /gate/source/src/setActivity       1e12 becquerel
 
-/control/execute    mac/sources/emission/nuc.mac
+/control/execute    mac/sources/emission/spc_user9.mac
 
 /gate/source/src/gps/ang/type           iso
 /gate/source/src/visualize             cyan
@@ -75,5 +76,5 @@
 /gate/application/setTimeStart   0 s
 /gate/application/setTimeStop    1 s
 
-/gate/application/setTotalNumberOfPrimaries 3e6
+/gate/application/setTotalNumberOfPrimaries 1e5
 /gate/application/startDAQ
