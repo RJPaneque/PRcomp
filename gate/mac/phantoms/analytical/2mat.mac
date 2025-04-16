@@ -1,15 +1,15 @@
 /gate/phantom/daughters/name            mat1
 /gate/phantom/daughters/insert          box
 /gate/mat1/setMaterial                  WaterTFM
-/gate/mat1/placement/setTranslation     0.0 0.0 -2 cm
-/gate/mat1/geometry/setXLength          8 cm
-/gate/mat1/geometry/setYLength          8 cm
-/gate/mat1/geometry/setZLength          4 cm
+/gate/mat1/placement/setTranslation     0.0 0.0 -1.5 cm
+/gate/mat1/geometry/setXLength          6 cm
+/gate/mat1/geometry/setYLength          6 cm
+/gate/mat1/geometry/setZLength          3 cm
 
 /gate/phantom/daughters/name            mat2
 /gate/phantom/daughters/insert          box
 /gate/mat2/setMaterial                  BoneTFM
-/gate/mat2/placement/setTranslation     0.0 0.0 +2 cm
-/gate/mat2/geometry/setXLength          8 cm
-/gate/mat2/geometry/setYLength          8 cm
-/gate/mat2/geometry/setZLength          4 cm
+/gate/mat2/placement/setTranslation     0.0 0.0 +1.5 cm
+/gate/mat2/geometry/setXLength          6 cm
+/gate/mat2/geometry/setYLength          6 cm
+/gate/mat2/geometry/setZLength          3 cm

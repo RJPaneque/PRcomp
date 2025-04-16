@@ -44,12 +44,12 @@
 ##########################################################
 /gate/source/addSource          src
 
-/control/execute    mac/sources/shape/sphere9.mac
+/control/execute    mac/sources/shape/point9.mac
 
 /gate/source/src/gps/pos/centre        0.0 0.0 0.0 mm
 /gate/source/src/setActivity       1e12 becquerel
 
-/control/execute    mac/sources/emission/spc_user9.mac
+/control/execute    mac/sources/emission/nuc.mac
 
 /gate/source/src/gps/ang/type           iso
 /gate/source/src/visualize             cyan
@@ -60,7 +60,7 @@
 # Random engine and seed
 ##########################################################
 /gate/random/setEngineName JamesRandom
-/gate/random/setEngineSeed 37192
+/gate/random/setEngineSeed 39609
 /gate/random/verbose 0
 
 ##########################################################
@@ -75,5 +75,5 @@
 /gate/application/setTimeStart   0 s
 /gate/application/setTimeStop    1 s
 
-/gate/application/setTotalNumberOfPrimaries 1e6
+/gate/application/setTotalNumberOfPrimaries 3e6
 /gate/application/startDAQ
