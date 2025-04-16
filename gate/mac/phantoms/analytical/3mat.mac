@@ -1,23 +1,23 @@
 /gate/phantom/daughters/name            mat1
 /gate/phantom/daughters/insert          box
 /gate/mat1/setMaterial                  Lung
-/gate/mat1/placement/setTranslation     0.0 0.0 -2.66667 cm
-/gate/mat1/geometry/setXLength          8 cm
-/gate/mat1/geometry/setYLength          8 cm
-/gate/mat1/geometry/setZLength          2.66667 cm
+/gate/mat1/placement/setTranslation     0.0 0.0 -2 cm
+/gate/mat1/geometry/setXLength          6 cm
+/gate/mat1/geometry/setYLength          6 cm
+/gate/mat1/geometry/setZLength          2 cm
 
 /gate/phantom/daughters/name            mat2
 /gate/phantom/daughters/insert          box
 /gate/mat2/setMaterial                  Water
 /gate/mat2/placement/setTranslation     0.0 0.0 0.0 mm
-/gate/mat2/geometry/setXLength          8 cm
-/gate/mat2/geometry/setYLength          8 cm
-/gate/mat2/geometry/setZLength          2.66667 cm
+/gate/mat2/geometry/setXLength          6 cm
+/gate/mat2/geometry/setYLength          6 cm
+/gate/mat2/geometry/setZLength          2 cm
 
 /gate/phantom/daughters/name            mat3
 /gate/phantom/daughters/insert          box
 /gate/mat3/setMaterial                  Bone
-/gate/mat3/placement/setTranslation     0.0 0.0 +2.66667 cm
-/gate/mat3/geometry/setXLength          8 cm
-/gate/mat3/geometry/setYLength          8 cm
-/gate/mat3/geometry/setZLength          2.66667 cm
+/gate/mat3/placement/setTranslation     0.0 0.0 +2 cm
+/gate/mat3/geometry/setXLength          6 cm
+/gate/mat3/geometry/setYLength          6 cm
+/gate/mat3/geometry/setZLength          2 cm

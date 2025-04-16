@@ -1,4 +1,4 @@
 /gate/source/src/gps/pos/type     Volume
 /gate/source/src/gps/pos/shape    Cylinder
 /gate/source/src/gps/pos/radius   5.0 mm
-/gate/source/src/gps/pos/halfz    4 cm
+/gate/source/src/gps/pos/halfz    3 cm
