@@ -1,6 +1,7 @@
 import lmfit
 import numpy as np
 import sympy as sp
+from scipy.special import gamma
 
 from IPython.display import display
 import warnings
@@ -25,6 +26,8 @@ class FitG3D:
         self.fitted_params_err = None
         self.residual = None
         self.chi2 = None
+        self.rmse = None
+        self.stderr = None
 
     def fit(self, xdata, ydata, rmin=0.0):
         ydata = ydata[xdata > rmin]
@@ -45,7 +48,7 @@ class FitG3D:
 
         # residual computation
         self.residual = np.sqrt(np.sum((npG3D(xdata, *popt) - ydata)**2))
-        self.rmse = self.residual / np.sqrt(len(xdata))
+        self.rmse = self.residual / np.sqrt(len(ydata))
 
         # chi2 computation
         eps = 1e-10
@@ -59,8 +62,8 @@ class FitG3D:
     
     def get_params(self, redon=2, with_err=True):
         params_rounded = [round(p, redon) for p in self.fitted_params]
-        err_rounded = [round(e, redon) for e in self.fitted_params_err]
         if with_err:
+            err_rounded = [round(e, redon) for e in self.fitted_params_err]
             pzip = zip(map(float, params_rounded), 
                        map(float, err_rounded))
         else:
@@ -98,6 +101,38 @@ class FitG3D:
         aPSF3D = sp.lambdify(x, aPSF3D, 'numpy')
         return aPSF3D
     
+def MBfit_function(*weights, n_is_const=False):
+    """
+    Define the multi-branch fitting function.
+    Parameters:
+        weights (list): List of weights for each branch (in %).
+    Returns:
+        fit_func (FitG3D): Fitting function object.
+    """
+    if sum(weights) != 100:
+        raise ValueError("Weights must sum to 100")
+    argsP = []
+    argsC = []
+    spf = 1
+    for i, w in enumerate(weights, 1):
+        a, b, c, n = sp.symbols(f'a{i} b{i} c{i} n{i}')
+        argsP += [a, b, c]
+        if n_is_const:
+            argsC += [n]
+        else:
+            argsP += [n]
+        
+        f = (a*x)**n + (b*x)**2.5 + (c*x)**3.5
+        spf = spf - w*1e-2*sp.exp(-f)
+    
+    params = dict.fromkeys(argsP, (0.4, [0, None]))
+    for i in range(1, len(weights)+1):
+        n = sp.symbols(f'n{i}')
+        if n in argsP: params[n] = (1, [1.001, 2])
+    const = dict.fromkeys(argsC, 1)
+
+    fit_func = FitG3D(spf, const, params, str(spf))
+    return fit_func, argsP, argsC
 
 ############################################################################################################
 def load_sample(input_file):
@@ -162,3 +197,43 @@ def load_histo_G3D(input_file, bin_size=0.5):
     return rp, G3D
 
 ############################################################################################################
+from betaplus import MB, SB, Fermi_factor, shape_factor
+def halflife_values(iso):
+    match iso:
+        case "C11":   hl = 20.3 * 60  # Convert minutes to seconds
+        case "N13":   hl = 9.97 * 60   # Convert minutes to seconds
+        case "O15":   hl = 2.03 * 60   # Convert minutes to seconds
+        case "F18":   hl = 109.8 * 60  # Convert minutes to seconds
+        case "Cu64":  hl = 12.7 * 3600 # Convert hours to seconds
+        case _: hl = None
+    return hl
+
+def coulomb_effect(iso, branch=0):
+    if iso in SB.keys():
+        Z = SB[iso]['Z']
+        A = SB[iso]['A']
+        N = A - Z
+        nat, Q, Em, _ = SB[iso]['branches'][branch]
+    elif iso in MB.keys():
+        Z = MB[iso]['Z']
+        A = MB[iso]['A']
+        N = A - Z
+        nat, Q, Em, _ = MB[iso]['branches'][branch]
+    else:
+        raise ValueError(f"Undefined isotope: {iso}")
+    
+    ee = np.linspace(1e-10, Em, 100)
+    ff = Fermi_factor(Z, ee)
+    nc = (N-Z)**2/A * np.mean(ff)
+    return [1+nc]
+    # return [max(N/Z, N/Z + (N-Z)/(N+Z))]
+    # Qa = 23.7*(N-Z+1)/A
+    # Qp = 11.2/A**0.5 if (Z%2 == N%2) else 0
+    # Qc = 0.691 / A**(1/3) * (Z*(Z-1) - (Z-1)*(Z-2))
+    # Qp = Q + Qa - Qc
+    # print(f"{iso}: {Q=}, {Qa=}, {Qp=}, {Qc=}")
+
+    # R = 1.26*(A)**(1/3)
+    # RZ = 1.26*(Z)**(1/3)
+    # hc = 197.327
+    # return [1 + Z/N * Em*R/hc]
