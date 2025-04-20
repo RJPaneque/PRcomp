@@ -190,6 +190,8 @@ class GetResults:
         for label, result in results.items():
             if sublabels:
                 label = sublabels[label]
+            if fmt and type(fmt) == dict:
+                fmt = fmt[label]
             plt.plot(eval(xQoI+'*10'), eval(yQoI), fmt, label=label) # *10 to convert to mm
         
         if log_scale: plt.yscale('log')
