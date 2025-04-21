@@ -115,7 +115,7 @@ Ga68branches = [
 Rb82branches = [
     # Nature     Q(keV)  E(keV)  Weight
      ('allowed', 2605,   1169,   13.6e-2 + 0.7e-2),   # Add remianing branches 
-     ('allowed', 3382,   1536,   86.4e-2),
+     ('allowed', 3382,   1536,   85.7e-2),
 ]
 
 I124branches = [
