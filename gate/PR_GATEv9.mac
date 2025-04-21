@@ -22,8 +22,8 @@
 # Physics
 ##########################################################
 /gate/physics/addProcess       RadioactiveDecay
-#/gate/physics/addPhysicsList    emstandard_opt3    # emstandard_opt3 emlivermore emlivermore_polar empenelope
-/control/execute               mac/user_defined_physics.mac
+/gate/physics/addPhysicsList    empenelope    # emstandard_opt3 emlivermore emlivermore_polar empenelope
+#/control/execute               mac/user_defined_physics.mac
 
 ##########################################################
 # Simulation output
@@ -76,5 +76,5 @@
 /gate/application/setTimeStart   0 s
 /gate/application/setTimeStop    1 s
 
-/gate/application/setTotalNumberOfPrimaries 1e5
+/gate/application/setTotalNumberOfPrimaries 1e6
 /gate/application/startDAQ
