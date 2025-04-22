@@ -356,7 +356,7 @@ class GetResults:
                                labels=labels, legend_size=legend_size, sublabels=sublabels, fmt=fmt)
         
         
-def aesthetic_plot(legend_size=9, linewidth=2, fontsize=20):
+def aesthetic_plot(legend_size=9, linewidth=2, fontsize=20, powered_yscale=False):
     ax = plt.gca()
     # Fancier spines
     ax.spines['top'].set_visible(False)
@@ -364,6 +364,11 @@ def aesthetic_plot(legend_size=9, linewidth=2, fontsize=20):
     ax.spines['left'].set_linewidth(2)
     ax.spines['bottom'].set_linewidth(2)
     ax.set_ylim(bottom=0)
+
+    if powered_yscale:
+        formatter = ScalarFormatter(useMathText=True)
+        formatter.set_powerlimits((-4, -2))
+        ax.yaxis.set_major_formatter(formatter)
 
     # Resize labels
     xl = ax.get_xlabel()
