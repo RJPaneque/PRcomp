@@ -7,14 +7,23 @@ mc2 = 0.51099895            # Electron mass at rest (MeV)
 
 def Fermi_factor(_Z, _E):
     """
-    Calculate the Fermi function for beta spectrum correction
-    
+    Calculate the Fermi function for beta spectrum correction.
+    The Fermi function accounts for the Coulomb interaction between the emitted beta particle 
+    and the daughter nucleus, which modifies the beta spectrum.
+
     Parameters:
-    Z (int): Atomic number of daughter nucleus
-    E (float): Kinetic energy of beta particle in MeV
-    
+        _Z (int): Atomic number of the daughter nucleus.
+        _E (float): Kinetic energy of the beta particle in MeV.
+
     Returns:
-    float: Fermi function value F(Z,E)
+        float: The Fermi function value F(Z, E).
+    
+    Notes:
+        - The function uses the Sommerfeld parameter to account for relativistic corrections.
+        - The nuclear radius is approximated using an empirical formula.
+        - The Gove-Martin approximation is applied for the calculation.
+        - Constants such as the fine-structure constant (alpha), Planck's constant (hc), 
+          and the electron rest mass energy (mc2) are assumed to be defined elsewhere in the code.
     """
     # Determine particle momentum and beta
     W = _E + mc2
@@ -43,17 +52,25 @@ def Fermi_factor(_Z, _E):
 
 def shape_factor(_nature, _Z, _A, _Q, _E):
     """
-    Calculate the shape factor for beta decay.
-    
+    Calculate the shape factor for a nuclear beta decay transition.
     Parameters:
-    nature (str): Nature of the decay -> 'allowed, 'first-forbidden', 'first-forbidden unique'
-    Z (int): Atomic number of the daughter nucleus
-    A (int): Mass number of the daughter nucleus
-    Q (float): Q value of the beta decay (in MeV)
-    E (float): Kinetic energy of the beta particle (in MeV)
-    
+        _nature (str): The nature of the nuclear transition. 
+                       Must be one of 'allowed', 'first-forbidden', or 'first-forbidden unique'.
+        _Z (int): The atomic number of the nucleus.
+        _A (int): The mass number of the nucleus.
+        _Q (float): The Q-value of the decay (energy released in the decay) in MeV.
+        _E (float): The kinetic energy of the emitted beta particle in MeV.
     Returns:
-    S (float): Shape factor value
+        float: The calculated shape factor for the given transition.
+    Raises:
+        ValueError: If the nature of the decay is invalid or if a valid shape factor 
+                    cannot be determined for a 'first-forbidden' transition.
+    Notes:
+        - For 'allowed' transitions, the shape factor is always 1.0.
+        - For 'first-forbidden unique' transitions, the shape factor depends on the 
+          momentum of the beta particle and the energy difference.
+        - For 'first-forbidden' transitions, the Schopper criterion is used to determine 
+          if the transition can be approximated as 'allowed'. If not, an exception is raised.
     """
     # Calculate shape factor
     p = np.sqrt(_E**2 + 2*_E*mc2)
@@ -77,20 +94,36 @@ def shape_factor(_nature, _Z, _A, _Q, _E):
 
 def beta_spectrum(_Q, _Z, _A, _nature='allowed'):
     """
-    Calculate the beta spectrum for a given Q value and Z value.
-    
+    Calculate the beta decay energy spectrum for a given nuclear transition.
     Parameters:
-    _Q (float): The Q value of the beta decay (in keV).
-    _Z (int): The atomic number of the decaying nucleus.
-    _A (int): The mass number of the decaying nucleus.
-    _nature (str): The nature of the decay ('allowed', 'first-forbidden', 'first-forbidden unique').
-    
+        _Q : float
+            The Q-value of the beta decay in keV (energy released during the decay).
+        _Z : int
+            The atomic number of the parent nucleus.
+        _A : int
+            The mass number of the parent nucleus.
+        _nature : str, optional
+            The nature of the beta transition, e.g., 'allowed', 'forbidden', etc.
+            Default is 'allowed'.
     Returns:
-    tuple:
-        - E (numpy.ndarray): The kinetic energy of the beta particle (in MeV).
-        - N (numpy.ndarray): The normalized beta spectrum.
-        - N0 (numpy.ndarray): The normalized beta spectrum without Fermi and shape factors.
+        E : numpy.ndarray
+            Array of beta particle energies in keV.
+        N : numpy.ndarray
+            Normalized beta spectrum including Coulomb correction and shape factor.
+        N0 : numpy.ndarray
+            Normalized beta spectrum without Coulomb correction.
+    Notes:
+        - The function computes the beta spectrum using the Fermi factor for Coulomb
+        correction and a shape factor for the transition type.
+        - The energy range starts from a small positive value (1e-10 keV) to avoid
+        division by zero and extends up to the Q-value.
+        - The Fermi factor and shape factor are applied to account for nuclear and
+        Coulomb effects on the beta spectrum.
+    Dependencies:
+        - Fermi_factor: A function to compute the Fermi correction factor.
+        - shape_factor: A function to compute the shape factor for the given transition type.
     """
+    
     # Init
     E = np.arange(1e-10, _Q, 1) # keV
     mc2keV = mc2 * 1e3 # MeV to keV
