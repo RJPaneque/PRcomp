@@ -2,7 +2,7 @@ import numpy as np
 import itertools
 from tqdm import tqdm
 
-def VG(dist_aPSF3D, STEP, SIZE, rlim, voxel_griding=10, source_griding=11, disable_tqdm=False):
+def VG(dist_aPSF3D, STEP, SIZE, rlim, voxel_griding=5, source_griding=3, disable_tqdm=False):
     """
     Performs voxel gridding (VG) to compute a 3D PSF kernel.
 
@@ -44,8 +44,9 @@ def VG(dist_aPSF3D, STEP, SIZE, rlim, voxel_griding=10, source_griding=11, disab
         raise ValueError("Kernel sizes must be odd to properly place the source voxel.")
 
     # Load iterators to save memory
-    voxel_indices = itertools.product(range(nx), range(ny), range(nz))
-    voxel_centers = itertools.starmap(lambda ix, iy, iz: ((ix-nx//2)*dx, (iy-ny//2)*dy, (iz-nz//2)*dz), voxel_indices)
+    voxel_indices = ((ix, iy, iz) for ix in range(nx) for iy in range(ny) for iz in range(nz))
+    auxiliary_indices = ((ix, iy, iz) for ix in range(nx) for iy in range(ny) for iz in range(nz))
+    voxel_centers = (((ix-nx//2)*dx, (iy-ny//2)*dy, (iz-nz//2)*dz) for ix, iy, iz in auxiliary_indices)
 
     # Grid points in source voxel
     grid_source = [np.linspace(0, step/2, 1+source_griding//2) for step in STEP]  # Only positive to always start at 0
