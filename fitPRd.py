@@ -151,7 +151,7 @@ def load_nonhisto_G3D(input_file):
 
     s = len(sample)
     sample_sorted = np.sort(sample)
-    G3D_sort = np.arange(1,s+1)/s
+    G3D_sort = (np.arange(1,s+1) - 0.5)/s
     return sample_sorted, G3D_sort
 
 def load_nonhisto_g3D(input_file, tol=1e-6):    # default tol in cm
