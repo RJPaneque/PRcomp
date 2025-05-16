@@ -1,0 +1,1 @@
+bin/penEasy/getPRforE.sh
