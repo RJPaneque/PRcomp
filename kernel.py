@@ -8,7 +8,7 @@ def VG(dist_aPSF3D, STEP, SIZE, rlim, voxel_griding=5, source_griding=3, disable
 
     Parameters:
         dist_aPSF3D (function): Function that calculates the PSF value given a distance r
-        STEP (list): Voxel dimensions in cm [dx, dy, dz] in mm
+        STEP (list): Voxel dimensions in cm [dx, dy, dz] in cm
         SIZE (list): Kernel size in voxels [nx, ny, nz]
         rlim (tuple): (rmin, rmax) Range of distances to consider in mm
         voxel_griding (int): Number of samples within each voxel
@@ -53,7 +53,7 @@ def VG(dist_aPSF3D, STEP, SIZE, rlim, voxel_griding=5, source_griding=3, disable
     grid_source = [np.sort(np.concat((-g[1:], +g), dtype=np.float32)) for g in grid_source]         # Include negative values
 
     # Loop over all voxels in kernel and grid them
-    for (ix,iy,iz), (cx,cy,cz) in tqdm(zip(voxel_indices, voxel_centers), total=nx*ny*nz//2, disable=disable_tqdm):
+    for (ix,iy,iz), (cx,cy,cz) in tqdm(zip(voxel_indices, voxel_centers), total=nx*ny*nz, disable=disable_tqdm):
       grid_xyz = np.linspace((cx-dx/2, cy-dy/2, cz-dz/2), (cx+dx/2, cy+dy/2, cz+dz/2), voxel_griding)
       x,y,z = np.meshgrid(grid_xyz[:, 0], grid_xyz[:, 1], grid_xyz[:, 2], indexing='ij')
 
