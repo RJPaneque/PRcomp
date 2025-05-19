@@ -367,7 +367,7 @@ def aesthetic_plot(legend_size=9, linewidth=2, fontsize=20, powered_yscale=False
 
     if powered_yscale:
         formatter = ScalarFormatter(useMathText=True)
-        formatter.set_powerlimits((-4, -2))
+        formatter.set_powerlimits((0, 1))
         ax.yaxis.set_major_formatter(formatter)
 
     # Resize labels
