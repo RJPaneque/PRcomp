@@ -1,18 +1,5 @@
-
-
-# Fitting function: -0.986*exp(-(a1*x)**n1 - (b1*x)**2.5 - (c1*x)**3.5) - 0.014*exp(-(a2*x)**n2 - (b2*x)**2.5 - (c2*x)**3.5) + 1
+# Fitting function: -0.01*exp(-(a1*x)**n1 - (b1*x)**2.5 - (c1*x)**3.5) - 0.52*exp(-(a2*x)**n2 - (b2*x)**2.5 - (c2*x)**3.5) - 0.47*exp(-(a3*x)**n3 - (b3*x)**2.5 - (c3*x)**3.5) + 1
 # Constants: None
-# Isotope  residue    rmse       chi2       a1     b1     c1     n1     a2     b2     c2     n2    
-Ga68       2.230      2.23e-03   303.708    0.314  0.000  0.166  1.427  17.588 48.312 97.402 1.165 
+# Isotope  R2         MAPE (%)   dev rmean (%) a1     b1     c1     n1     a2     b2     c2     n2     a3     b3     c3     n3    
+I124       0.996      1.22e+01   -0.732     1.007  0.000  0.421  1.443  0.412  0.000  0.210  1.458  0.241  0.000  0.150  1.369 
 
-
-# Fitting function: -0.857*exp(-(a1*x)**n1 - (b1*x)**2.5 - (c1*x)**3.5) - 0.143*exp(-(a2*x)**n2 - (b2*x)**2.5 - (c2*x)**3.5) + 1
-# Constants: None
-# Isotope  residue    rmse       chi2       a1     b1     c1     n1     a2     b2     c2     n2    
-Rb82       0.157      1.57e-04   0.153      0.131  0.046  0.096  1.353  0.209  0.000  0.115  1.967 
-
-
-# Fitting function: -0.515*exp(-(a1*x)**n1 - (b1*x)**2.5 - (c1*x)**3.5) - 0.471*exp(-(a2*x)**n2 - (b2*x)**2.5 - (c2*x)**3.5) - 0.014*exp(-(a3*x)**n3 - (b3*x)**2.5 - (c3*x)**3.5) + 1
-# Constants: None
-# Isotope  residue    rmse       chi2       a1     b1     c1     n1     a2     b2     c2     n2     a3     b3     c3     n3    
-I124       2.460      2.46e-03   456.782    0.507  0.000  0.002  1.562  0.221  0.139  0.006  2.000  13.130 31.132 57.454 1.865 
