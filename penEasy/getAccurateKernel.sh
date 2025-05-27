@@ -1,1 +1,1 @@
-bin/penEasy/getAccurateKernel.sh
+../bin/penEasy/getAccurateKernel.sh

@@ -1,1 +1,1 @@
-bin/penEasy/getPRforE.sh
+../bin/penEasy/getPRforE.sh
