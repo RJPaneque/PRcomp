@@ -246,9 +246,9 @@ class GetResults:
         for label, result in results.items():
             print(f"     {label:<40}\t{result.dpoints:>10}")
 
-        print("Maximum radial distance traveled simulated:")
-        for label, result in results.items():
-            print(f"     {label:<40}\t{result.rmax*10:>10.2f} mm")
+        # print("Maximum radial distance traveled simulated:")
+        # for label, result in results.items():
+        #     print(f"     {label:<40}\t{result.rmax*10:>10.2f} mm")
 
         print("Average radial distance traveled simulated:")
         for label, result in results.items():
@@ -256,7 +256,7 @@ class GetResults:
 
         print("Cummulative distances:")
         for label, result in results.items():
-            print(f"     {label:<40}\t50% @ {result.interpol_G3D(0.5)*10:>3.2f}mm\t90% @ {result.interpol_G3D(0.9)*10:.2f}mm")
+            print(f"     {label:<40}\t50% @ {result.interpol_G3D(0.5)*10:>3.2f}mm\t90% @ {result.interpol_G3D(0.9)*10:.2f}mm\t99% @ {result.interpol_G3D(0.99)*10:.2f}mm")
 
     def plot_meanZ(self, 
                    reduce=False, 
