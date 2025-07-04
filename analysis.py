@@ -121,16 +121,16 @@ class PRAnalysis:
         self.aPSF3D = self.aPSF3D / np.sum(self.aPSF3D)
         self.aPSF3D_sin = self.aPSF3D / np.max(self.aPSF3D)
 
-        #---cummulative radial distribution without histograms: G3D(r) = (i+1)/N for i=0..N-1
+        #---cummulative radial distribution without histograms: G3D(r) = (i-0.5)/N for i=1..N
         self.rsort = np.sort(self.rp)
-        self.G3D_nohist = np.arange(1, self.dsize+1)/self.dsize
+        self.G3D_nohist = (np.arange(1, self.dsize+1)-0.5)/self.dsize
 
     def interpol_G3D(self, val):
         """Interpolates the value of G3D(r) for a given results object"""
-        x1 = self.rplot[self.G3D<val][-1]
-        y1 = self.G3D[self.G3D<val][-1]
-        x2 = self.rplot[self.G3D>val][0]
-        y2 = self.G3D[self.G3D>val][0]
+        x1 = self.rsort[self.G3D_nohist<val][-1]
+        y1 = self.G3D_nohist[self.G3D_nohist<val][-1]
+        x2 = self.rsort[self.G3D_nohist>val][0]
+        y2 = self.G3D_nohist[self.G3D_nohist>val][0]
 
         return x1 + (x2-x1)*(val-y1)/(y2-y1)
     
@@ -256,7 +256,7 @@ class GetResults:
 
         print("Cummulative distances:")
         for label, result in results.items():
-            print(f"     {label:<40}\t50% @ {result.interpol_G3D(0.5)*10:>3.2f}mm\t90% @ {result.interpol_G3D(0.9)*10:.2f}mm\t99% @ {result.interpol_G3D(0.99)*10:.2f}mm")
+            print(f"     {label:<40}\t50% @ {result.interpol_G3D(0.5)*10:>3.2f}mm\t90% @ {result.interpol_G3D(0.9)*10:.2f}mm\t99.9% @ {result.interpol_G3D(0.999)*10:.2f}mm")
 
     def plot_meanZ(self, 
                    reduce=False, 
