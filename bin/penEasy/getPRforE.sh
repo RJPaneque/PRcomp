@@ -1,6 +1,7 @@
-ver=24
+ver=24EPR
+par="e-"
 
-for E in $(seq 0 5 100); do
+for E in $(seq 1000 50 3500); do
     E=$((E > 1 ? E : 1))
     echo "Energy: $E keV"
     sed -i "s/.*Spectrum.*/ $E.0e3      1.0                   Spectrum table, arbitrary normalization. Example: a single channel [10,10]MeV of null width/" pen${ver}_spc.in
@@ -9,6 +10,7 @@ for E in $(seq 0 5 100); do
     ./run_normal.sh spc $ver > /dev/null
 
     # Convert to radial coordinates
-    awk '{r=sqrt($1^2 + $2^2 + $3^2); printf "%.6e\n", r}' annihilation.dat > annihilation_r.dat
-    mv annihilation.dat ../RESULTS/PRofE/Water/PenEasy20${ver}_xyz/${E}keV.dat
+    #awk '{r=sqrt($1^2 + $2^2 + $3^2); printf "%.6e\n", r}' annihilation.dat > annihilation_r.dat
+    mv range.dat ../RESULTS/PRofE/Water/PenEasy2024_xyz/${par}/${E}keV-range.dat
+    mv eloss.dat ../RESULTS/PRofE/Water/PenEasy2024_xyz/${par}/${E}keV-eloss.dat
 done

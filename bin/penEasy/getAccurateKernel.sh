@@ -2,7 +2,7 @@ ver=24
 
 D=($(seq 0 25 50))
 S=${#D[@]}
-rm annihilation_xyz.dat
+rm range_xyz.dat
 for iso in "F18" "Ga68" "Rb82"; do
     echo "###########-iso: $iso"
     cd ..; ./bin/penEasy/isotope_nuc.sh $iso > /dev/null; cd penEasy
@@ -17,10 +17,10 @@ for iso in "F18" "Ga68" "Rb82"; do
                 cd ..; ./bin/penEasy/seeds.sh $RANDOM $RANDOM  > /dev/null; cd penEasy
 
                 ./run_normal.sh nuc $ver > /dev/null
-                awk '{printf "%.6e %.6e %.6e\n", $1, $2, $3}' annihilation.dat >> annihilation_xyz.dat
-                wc -l annihilation_xyz.dat
+                awk '{printf "%.6e %.6e %.6e\n", $1, $2, $3}' range.dat >> range_xyz.dat
+                wc -l range_xyz.dat
             done
         done
     done
-    mv annihilation_xyz.dat ../RESULTS/kernel/Water/PenEasy20${ver}_xyz/simulated_${iso}_S$S.dat
+    mv range_xyz.dat ../RESULTS/kernel/Water/PenEasy20${ver}_xyz/simulated_${iso}_S$S.dat
 done

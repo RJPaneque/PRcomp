@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if the user provided an input
-if [ -z "$1" ] || ! [[ "$1" =~ ^(spc|nuc)$ ]] || ! [[ "$2" =~ ^(20|24)$ ]]; then
+if [ -z "$1" ] || ! [[ "$1" =~ ^(spc|nuc)$ ]] || ! [[ "$2" =~ ^(20|24EPR)$ ]]; then
     echo "Usage: $0 <spc or nuc> <20 or 24>" >&2
     exit 1
 fi
@@ -33,4 +33,4 @@ midy=$(echo | awk -vN=$dimY -vd=$dy '{print N*d/2}')
 midz=$(echo | awk -vN=$dimZ -vd=$dz '{print N*d/2}')
 
 # Set positron range coords in PosRange.dat around 0,0,0
-awk -vmx=$midx -vmy=$midy -vmz=$midz '{print $1-mx,$2-my,$3-mz}' annihilation.dat > tmp && mv tmp annihilation.dat
+awk -vmx=$midx -vmy=$midy -vmz=$midz '{print $1-mx,$2-my,$3-mz}' range.dat > tmp && mv tmp range.dat
