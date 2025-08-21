@@ -23,3 +23,5 @@ __pycache__/*
 !.conda/environment.yml
 fermi/fort.88
 log.txt
+penEasy/eloss.dat.null
+penEasy/nohup.out
