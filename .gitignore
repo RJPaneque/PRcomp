@@ -1,5 +1,6 @@
 RESULTS/**/*.original
 RESULTS/**/*.raw*
+RESULTS/kernel/Water/PenEasy2024_xyz/*.dat
 
 penEasy/*.dat
 penEasy/*.raw
