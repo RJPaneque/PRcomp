@@ -1,0 +1,4 @@
+/gate/source/src/gps/particle           e+
+/gate/source/src/gps/energytype         Mono
+/gate/source/src/gps/monoenergy         50 keV
+/gate/source/src/setIntensity           10

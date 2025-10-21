@@ -41,7 +41,7 @@
  1e6             NUMBER OF HISTORIES (1.0e15 MAX)
  1.0e30            ALLOTTED TIME (s) (+ FOR REAL TIME, - FOR CPU TIME)
  100.0             UPDATE INTERVAL (s)
- 26208  31567              INITIAL RANDOM SEEDS
+ 28457  3195              INITIAL RANDOM SEEDS
  -                 SEEDS FILE; MUST ENTER SEEDS=0,0 TO APPLY
  -                 RESTART FILE; MUST ENTER SEEDS=-1,-1 TO APPLY
  penEasy.dmp       OUTPUT DUMP FILE; ENTER '-' FOR 'NO DUMP'
@@ -53,7 +53,7 @@
 
 [SECTION SOURCE BOX ISOTROPIC GAUSS SPECTRUM v.2014-12-21]
  ON                              STATUS (ON or OFF)
- 1                               PARTICLE TYPE (1=ELECTRON, 2=PHOTON, 3=POSITRON) OR RADIONUCLIDE FILENAME (e.g., Co-60.nuc)
+ 3                               PARTICLE TYPE (1=ELECTRON, 2=PHOTON, 3=POSITRON) OR RADIONUCLIDE FILENAME (e.g., Co-60.nuc)
   SUBSECTION FOR PHOTON POLARIZATION:
  0                               ACTIVATE PHOTON POLARIZATION PHYSICS (0=NO, 1=YES)
  0.0 0.0 0.0                     STOKES PARAMETERS (USED ONLY IF ACTIVATE POLARIZATION=1)
@@ -72,8 +72,8 @@
   SUBSECTION FOR PARTICLE ENERGY:  (REMOVE THIS SUBSECTION IF RADIONUCLIDE IS USED AS PARTICLE TYPE)
  -                   ENERGY SPECTRUM FILE NAME; ENTER '-' TO ENTER SPECTRUM IN NEXT LINES
  Energy(eV)  Probability         DUMMY HEADER LINE; REMOVE HEADER AND TABLE IF A FILENAME WAS PROVIDED ABOVE
- 2200.0e3      1.0                   Spectrum table, arbitrary normalization. Example: a single channel [10,10]MeV of null width
- 2200.0e3      -1                   Enter a negative prob. to signal the end of the table
+ 1500.0e3      1.0                   Spectrum table, arbitrary normalization. Example: a single channel [10,10]MeV of null width
+ 1500.0e3      -1                   Enter a negative prob. to signal the end of the table
  0.0                             FWHM(eV) OF GAUSSIAN ENERGY DISTRIB. [NOTE FWHM=SIGMA*sqrt(8*ln(2))]
 [END OF BIGS SECTION]
 
